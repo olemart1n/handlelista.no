@@ -1,25 +1,33 @@
 import { component$ } from "@builder.io/qwik";
+import { Link } from "@builder.io/qwik-city";
 import type { DocumentHead } from "@builder.io/qwik-city";
 
 export default component$(() => {
   return (
     <>
-      <h1>Hi 👋</h1>
-      <p>
-        Can't wait to see what you build with qwik!
-        <br />
-        Happy coding.
-      </p>
+      <Link
+        class="relative mx-auto flex h-16 w-11/12 place-items-center justify-around rounded-sm border bg-green-100 text-center text-4xl shadow-md drop-shadow-sm"
+        href="/bruker"
+      >
+        Din bruker
+      </Link>
+      <h2>Lucia</h2>
     </>
   );
 });
 
 export const head: DocumentHead = {
-  title: "Welcome to Qwik",
+  title: "Handlelista",
   meta: [
     {
       name: "description",
-      content: "Qwik site description",
+      content:
+        "handlelista.no er ett nettsted der man kan lage sette opp handlelister",
+    },
+    {
+      name: "viewport",
+      content:
+        "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
     },
   ],
 };
