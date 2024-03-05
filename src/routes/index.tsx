@@ -1,6 +1,19 @@
 import { component$ } from "@builder.io/qwik";
-import { Link } from "@builder.io/qwik-city";
+import { Link, routeLoader$ } from "@builder.io/qwik-city";
 import type { DocumentHead } from "@builder.io/qwik-city";
+import { methodGet } from "~/lib/db";
+
+export const useDbCheckJwt = routeLoader$(async (reqEv) => {
+  const jwt = reqEv.cookie.get("jwt");
+  if (!jwt) {
+    throw reqEv.redirect(303, "/autentisering");
+  }
+  const { isAuthenticated } = await methodGet("/v1/auth/status", jwt);
+  if (!isAuthenticated) {
+    reqEv.cookie.delete("jwt");
+    throw reqEv.redirect(303, "/autentisering");
+  }
+});
 
 export default component$(() => {
   return (
