@@ -51,6 +51,7 @@ export default component$(() => {
   });
   return (
     <Form onSubmit$={register}>
+      <h2 class="text-center">Registrer deg</h2>
       <Field name="name">
         {(field, props) => (
           <div class="mb-5">

@@ -12,7 +12,7 @@ export default component$(() => {
     validate: valiForm$(LoginSchema),
   });
   // ...
-  const register: QRL<SubmitHandler<LoginForm>> = $(async (form) => {
+  const signIn: QRL<SubmitHandler<LoginForm>> = $(async (form) => {
     const { email, password } = form;
 
     const res = await fetch(
@@ -22,7 +22,7 @@ export default component$(() => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ email, password }),
         credentials: "include",
       },
     );
@@ -38,15 +38,13 @@ export default component$(() => {
       Object.keys(errors).forEach((key) => {
         setError(LoginForm, key as "email" | "password", errors[key]);
       });
-
-      // noinspection ExceptionCaughtLocallyJS
       throw new Error(
         "Sorry, there was an error when logging in. Refresh the page and try again.",
       );
     }
   });
   return (
-    <Form onSubmit$={register}>
+    <Form onSubmit$={signIn}>
       <Field name="email">
         {(field, props) => (
           <div class="mb-5">
@@ -117,14 +115,14 @@ export default component$(() => {
           type="submit"
           class="mx-auto my-2 block rounded-sm border border-gray-200 bg-gray-100 px-4 py-1 text-lg shadow-md"
         >
-          Registrer
+          Logg inn
         </button>
       </div>
 
       <p class="py-4 text-center">
-        Har du bruker?{" "}
-        <a href="/autentisering/logg-inn" class="underline">
-          Logg inn
+        Har du ikke bruker?{" "}
+        <a href="/autentisering/registrer" class="underline">
+          Registrer
         </a>
       </p>
     </Form>

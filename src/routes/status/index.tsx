@@ -4,7 +4,6 @@ import { routeLoader$, useNavigate } from "@builder.io/qwik-city";
 import { methodGet, initializeUser, type User } from "~/lib";
 
 export const useDbGetUser = routeLoader$(async (reqEv) => {
-  const cookie = reqEv.cookie.get("userId");
   const jwtCookie = reqEv.cookie.get("jwt");
   const { error, data } = await methodGet("/v1/auth/user", jwtCookie!);
   if (error) {

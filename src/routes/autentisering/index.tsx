@@ -33,7 +33,7 @@ export default component$(() => {
       ))}
       <a
         class="border-gra mx-auto  flex  h-12 w-3/4  place-content-center rounded-sm border border-gray-200 shadow-sm"
-        href="/autentisering/logg-inn"
+        href="/autentisering/registrer"
       >
         <span class="my-auto">Email & passord</span>
       </a>

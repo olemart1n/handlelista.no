@@ -1,5 +1,4 @@
 import { component$ } from "@builder.io/qwik";
-import { Link } from "@builder.io/qwik-city";
 export interface OAuthComponentProps {
   provider: string;
   imageUrl: string;
@@ -10,7 +9,7 @@ export const OAuthComponent = component$<OAuthComponentProps>(
     const providerCapitalized =
       provider[0].toUpperCase() + provider.substring(1);
     return (
-      <Link
+      <a
         href={import.meta.env.PUBLIC_SERVER_URL + "/v1/auth/" + provider}
         class="mx-auto flex  w-3/4  place-content-center rounded-md border border-gray-200 shadow-sm "
       >
@@ -23,7 +22,7 @@ export const OAuthComponent = component$<OAuthComponentProps>(
           width={50}
         />
         <span class="my-auto">{providerCapitalized}</span>
-      </Link>
+      </a>
     );
   },
 );
