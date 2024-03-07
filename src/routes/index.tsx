@@ -1,15 +1,18 @@
 import { component$ } from "@builder.io/qwik";
-import { Link, routeLoader$ } from "@builder.io/qwik-city";
+import { Link, routeAction$, routeLoader$ } from "@builder.io/qwik-city";
 import type { DocumentHead } from "@builder.io/qwik-city";
-import { methodGet } from "~/lib/db";
-
-export const useDbCheckJwt = routeLoader$(async (reqEv) => {
-  const jwt = reqEv.cookie.get("jwt");
-  if (!jwt) {
+import { jwtDecode } from "jwt-decode";
+export const useDbCheckJwtExpired = routeLoader$(async (reqEv) => {
+  // THIS ROUTELOADER RUNS ONLY WHEN VISITING "/"
+  const jwtCookie = reqEv.cookie.get("jwt");
+  if (!jwtCookie) {
     throw reqEv.redirect(303, "/autentisering");
   }
-  const { isAuthenticated } = await methodGet("/v1/auth/status", jwt);
-  if (!isAuthenticated) {
+  const decodedToken = jwtDecode(jwtCookie.value);
+  //decodedToken.exp converted to milliseconds
+  if (Date.now() >= decodedToken.exp! * 1000) {
+    // Check if the current time is after the expiration time
+    // Token has expired
     reqEv.cookie.delete("jwt");
     throw reqEv.redirect(303, "/autentisering");
   }
@@ -24,9 +27,14 @@ export default component$(() => {
       >
         Din bruker
       </Link>
-      <h2>Lucia</h2>
     </>
   );
+});
+
+export const useAuthSignout = routeAction$((_, requestEv) => {
+  requestEv.cookie.delete("jwt");
+  requestEv.cookie.delete("userId");
+  throw requestEv.redirect(303, "/autentisering");
 });
 
 export const head: DocumentHead = {

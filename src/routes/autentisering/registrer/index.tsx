@@ -1,8 +1,26 @@
 import { component$ } from "@builder.io/qwik";
+import { Form, routeAction$ } from "@builder.io/qwik-city";
 
+export const useSignUpWithCredentials = routeAction$(async (form) => {
+  const { name, email, password } = form;
+
+  const res = await fetch(
+    import.meta.env.PUBLIC_SERVER_URL + "/v1/auth/sign-up",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, email, password }),
+    },
+  );
+  const user = await res.json();
+  console.log(user);
+});
 export default component$(() => {
+  const register = useSignUpWithCredentials();
   return (
-    <section>
+    <Form action={register}>
       <div>
         <label
           for="name"
@@ -31,7 +49,7 @@ export default component$(() => {
           name="email"
           id="email"
           class="block h-10 w-full rounded-md border border-gray-200 bg-gray-50 text-center sm:text-sm"
-          placeholder="name@mail.no"
+          placeholder="eksempel@mail.no"
           required
         />
       </div>
@@ -46,6 +64,7 @@ export default component$(() => {
           type="password"
           name="password"
           id="password"
+          placeholder="passord"
           class="block h-10 w-full rounded-md border border-gray-200 bg-gray-50 text-center sm:text-sm"
           required
         />
@@ -65,6 +84,6 @@ export default component$(() => {
           Logg inn
         </a>
       </p>
-    </section>
+    </Form>
   );
 });
