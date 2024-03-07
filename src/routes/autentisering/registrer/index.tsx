@@ -1,74 +1,153 @@
-import { component$ } from "@builder.io/qwik";
-import { Form, routeAction$ } from "@builder.io/qwik-city";
+import { type QRL, component$, $ } from "@builder.io/qwik";
+import { useNavigate } from "@builder.io/qwik-city";
+import { type SubmitHandler } from "@modular-forms/qwik";
 
-export const useSignUpWithCredentials = routeAction$(async (form) => {
-  const { name, email, password } = form;
+import { useForm, valiForm$, setError } from "@modular-forms/qwik";
+import { RegisterSchema, type RegisterForm } from "~/lib/valibot";
 
-  const res = await fetch(
-    import.meta.env.PUBLIC_SERVER_URL + "/v1/auth/sign-up",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name, email, password }),
-    },
-  );
-  const user = await res.json();
-  console.log(user);
-});
 export default component$(() => {
-  const register = useSignUpWithCredentials();
+  const nav = useNavigate();
+  const [RegisterForm, { Form, Field }] = useForm<RegisterForm>({
+    loader: { value: { email: "", password: "", name: "" } },
+    validate: valiForm$(RegisterSchema),
+  });
+  // ...
+  const register: QRL<SubmitHandler<RegisterForm>> = $(async (form) => {
+    const { name, email, password } = form;
+
+    const res = await fetch(
+      import.meta.env.PUBLIC_SERVER_URL + "/v1/auth/sign-up",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, password }),
+        credentials: "include",
+      },
+    );
+    if (res.ok) {
+      nav("/status", {
+        replaceState: true,
+        forceReload: true,
+      });
+    } else {
+      const json = await res.json();
+      const errors = json.errors;
+
+      Object.keys(errors).forEach((key) => {
+        setError(
+          RegisterForm,
+          key as "email" | "password" | "name",
+          errors[key],
+        );
+      });
+
+      // noinspection ExceptionCaughtLocallyJS
+      throw new Error(
+        "Sorry, there was an error when logging in. Refresh the page and try again.",
+      );
+    }
+  });
   return (
-    <Form action={register}>
-      <div>
-        <label
-          for="name"
-          class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-        >
-          Navn
-        </label>
-        <input
-          type="text"
-          name="name"
-          id="name"
-          class="block h-10 w-full rounded-md border border-gray-200 bg-gray-50 text-center sm:text-sm"
-          placeholder="Navn"
-          required
-        />
-      </div>
-      <div>
-        <label
-          for="email"
-          class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-        >
-          Email
-        </label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          class="block h-10 w-full rounded-md border border-gray-200 bg-gray-50 text-center sm:text-sm"
-          placeholder="eksempel@mail.no"
-          required
-        />
-      </div>
-      <div>
-        <label
-          for="password"
-          class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-        >
-          Passord
-        </label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          placeholder="passord"
-          class="block h-10 w-full rounded-md border border-gray-200 bg-gray-50 text-center sm:text-sm"
-          required
-        />
-      </div>
+    <Form onSubmit$={register}>
+      <Field name="name">
+        {(field, props) => (
+          <div class="mb-5">
+            <label
+              for="name"
+              class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Navn
+            </label>
+            <input
+              {...props}
+              value={field.value}
+              placeholder="Navn"
+              type="name"
+              name="name"
+              autoFocus
+              id="name"
+              class={[
+                "block h-10 w-full rounded-md border border-gray-200 bg-gray-50 text-center sm:text-sm",
+                field.error
+                  ? "border-red-600"
+                  : "border-gray-300 focus:border-blue-500 focus:ring-blue-500",
+              ]}
+            />
+            {field.error && (
+              <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                {field.error}
+              </p>
+            )}
+          </div>
+        )}
+      </Field>
+      <Field name="email">
+        {(field, props) => (
+          <div class="mb-5">
+            <label
+              for="email"
+              class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Email
+            </label>
+            <input
+              {...props}
+              value={field.value}
+              type="email"
+              name="email"
+              placeholder="eksempel@mail.no"
+              autoFocus
+              id="email"
+              class={[
+                "block h-10 w-full rounded-md border border-gray-200 bg-gray-50 text-center sm:text-sm",
+                field.error
+                  ? "border-red-600"
+                  : "border-gray-300 focus:border-blue-500 focus:ring-blue-500",
+              ]}
+            />
+            {field.error && (
+              <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                {field.error}
+              </p>
+            )}
+          </div>
+        )}
+      </Field>
+      <Field name="password">
+        {(field, props) => (
+          <div class="mb-5">
+            <label
+              for="password"
+              class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Email
+            </label>
+            <input
+              {...props}
+              value={field.value}
+              type="password"
+              name="password"
+              placeholder="passord"
+              autoFocus
+              id="password"
+              class={[
+                "block h-10 w-full rounded-md border border-gray-200 bg-gray-50 text-center sm:text-sm",
+                field.error
+                  ? "border-red-600"
+                  : "border-gray-300 focus:border-blue-500 focus:ring-blue-500",
+              ]}
+            />
+            {field.error && (
+              <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                {field.error}
+              </p>
+            )}
+          </div>
+        )}
+      </Field>
+
       <div class="w-full">
         <button
           type="submit"

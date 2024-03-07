@@ -32,7 +32,6 @@ export const useTursoCreateList = routeAction$(async (form, requestEv) => {
 export const useHerokuGetUser = routeLoader$(async (reqEv) => {
   const cookie = reqEv.cookie.get("jwt");
   const { error, data } = await methodGet("/v1/auth/user", cookie!);
-  console.log(data);
   if (error) {
     return error as User;
   } else return data as User;
@@ -74,7 +73,7 @@ export default component$(() => {
       <div class="ms-10 mt-10 flex w-1/3 flex-col justify-between gap-5">
         <button
           onClick$={() => {
-            signOut.submit();
+            signOut.submit().then(() => console.log("hello"));
           }}
           class="rounded border bg-slate-200 p-1.5 shadow-sm"
         >

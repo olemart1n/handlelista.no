@@ -4,29 +4,20 @@ import { routeLoader$, useNavigate } from "@builder.io/qwik-city";
 import { methodGet, initializeUser, type User } from "~/lib";
 
 export const useDbGetUser = routeLoader$(async (reqEv) => {
-  interface Obj {
-    data: User | null;
-    error: null | string;
-  }
-  let returnObj: Obj;
-  const cookie = reqEv.cookie.get("jwt");
-  if (!cookie) {
-    returnObj = { data: null, error: "not authenticated" };
-    return returnObj;
-  }
-  const { error, data } = await methodGet("/v1/auth/user", cookie);
+  const cookie = reqEv.cookie.get("userId");
+  const jwtCookie = reqEv.cookie.get("jwt");
+  const { error, data } = await methodGet("/v1/auth/user", jwtCookie!);
   if (error) {
-    returnObj = { data: null, error: error };
-    return returnObj;
+    return { user: null, error: "problem oppsto" };
   } else {
     try {
       initializeUser(reqEv.env, data.id as number);
     } catch (error) {
       console.log(error);
-      return;
+      return { user: null, error: "problem oppsto" };
     }
-    returnObj = { data: data, error: null };
-    return returnObj;
+
+    return { user: data as User, error: null };
   }
 });
 export default component$(() => {
@@ -34,15 +25,18 @@ export default component$(() => {
   const user = useDbGetUser();
   // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(() => {
-    if (user.value?.data) {
+    if (user.value.user !== null) {
       setTimeout(() => {
         nav("/bruker");
-      }, 1000);
+      }, 2000);
     }
   });
   return (
     <section>
-      <h1>Setter opp din profil</h1>
+      <h1 class="text-center text-lg underline">
+        Hei {user.value.user ? user.value.user.name : " "}
+      </h1>
+      <p class="mx-auto">Du har nå opprettet en profil</p>
     </section>
   );
 });
