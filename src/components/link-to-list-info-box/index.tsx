@@ -21,7 +21,7 @@ export const LinkToListInfoBox = component$<LinkToListInfoBoxProps>(
             del.submit({ listId: listId }).then(() => divEl.value!.remove())
           }
         >
-          <LuTrash2 class="my-auto" />
+          <LuTrash2 class="my-auto ms-5 text-lg" />
         </button>
       </div>
     );

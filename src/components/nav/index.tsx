@@ -11,8 +11,11 @@ export const Nav = component$(() => {
           <h1>handlelista.no</h1>
         </Link>
       ) : (
-        <Link href="/bruker" class="flex rounded border p-1">
-          <LuArrowLeft /> Bruker
+        <Link
+          href="/bruker"
+          class="flex rounded border-2 border-gray-600 p-1 text-lg  "
+        >
+          <LuArrowLeft class="my-auto text-lg" /> <p>Bruker</p>
         </Link>
       )}
     </nav>

@@ -6,6 +6,7 @@ export interface ListWithItemsProps {
   list: ListItem[];
 }
 export const ListWithItems = component$<ListWithItemsProps>(({ list }) => {
+  const numberOfItemsPurchased = list.filter((item) => item.purchased === true);
   return (
     <>
       <div>
@@ -14,7 +15,9 @@ export const ListWithItems = component$<ListWithItemsProps>(({ list }) => {
         })}
       </div>
       <div>
-        {list.length > 0 && <h2 class="text-center">Handlet</h2>}
+        {numberOfItemsPurchased.length > 0 && (
+          <h2 class="text-center">Handlet</h2>
+        )}
         {list.map((itemprop: ListItem, i: number) => {
           if (itemprop.purchased) return <Item key={i} props={itemprop} />;
         })}

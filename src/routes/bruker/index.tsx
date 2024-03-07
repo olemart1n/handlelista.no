@@ -57,9 +57,9 @@ export default component$(() => {
           <h2 class="my-auto text-center text-2xl">Dine handlelister</h2>
           <button
             onClick$={() => (isAddingList.value = !isAddingList.value)}
-            class="my-3 ms-auto flex rounded border border-slate-300 bg-green-300 p-2.5 text-center shadow-lg"
+            class="my-3 ms-auto flex rounded border-2 border-gray-600 bg-green-300 p-2.5 text-center shadow-lg"
           >
-            <LuPlus />
+            <LuPlus class="text-lg" />
           </button>
         </div>
         {listStore.list?.map((list: List) => (

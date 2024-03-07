@@ -52,12 +52,15 @@ export default component$(() => {
   return (
     <Form onSubmit$={register}>
       <h2 class="text-center">Registrer deg</h2>
+      <h3 class="my-10 bg-green-200 text-center text-lg underline">
+        Du kan bruke fiktiv email, navn og passord !
+      </h3>
       <Field name="name">
         {(field, props) => (
           <div class="mb-5">
             <label
               for="name"
-              class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+              class="mb-2 block text-sm font-medium text-gray-900"
             >
               Navn
             </label>
@@ -77,9 +80,7 @@ export default component$(() => {
               ]}
             />
             {field.error && (
-              <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-                {field.error}
-              </p>
+              <p class="mt-2 text-sm text-red-600 ">{field.error}</p>
             )}
           </div>
         )}
@@ -89,7 +90,7 @@ export default component$(() => {
           <div class="mb-5">
             <label
               for="email"
-              class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+              class="mb-2 block text-sm font-medium text-gray-900 "
             >
               Email
             </label>
@@ -109,9 +110,7 @@ export default component$(() => {
               ]}
             />
             {field.error && (
-              <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-                {field.error}
-              </p>
+              <p class="mt-2 text-sm text-red-600">{field.error}</p>
             )}
           </div>
         )}
@@ -121,9 +120,9 @@ export default component$(() => {
           <div class="mb-5">
             <label
               for="password"
-              class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+              class="mb-2 block text-sm font-medium text-gray-900 "
             >
-              Email
+              Passord
             </label>
             <input
               {...props}
@@ -141,9 +140,7 @@ export default component$(() => {
               ]}
             />
             {field.error && (
-              <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-                {field.error}
-              </p>
+              <p class="mt-2 text-sm text-red-600 ">{field.error}</p>
             )}
           </div>
         )}

@@ -29,6 +29,7 @@ body {
   display: grid;
   grid-template-rows: auto 1fr;
   height: 100dvh;
+  max-width: 400px;
 }
 .barlow {
   font-family: "Barlow Semi Condensed", sans-serif;

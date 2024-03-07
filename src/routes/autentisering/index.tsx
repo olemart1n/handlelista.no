@@ -24,6 +24,12 @@ export default component$(() => {
   ];
   return (
     <section class="mt-5 flex flex-col gap-3">
+      <a
+        class="border-gra mx-auto  flex  h-12 w-3/4  place-content-center rounded-sm border border-gray-200 shadow-sm"
+        href="/autentisering/registrer"
+      >
+        <span class="my-auto text-lg">Email & passord</span>
+      </a>
       {providers.map((provider: Provider, i: number) => (
         <OAuthComponent
           key={i}
@@ -31,12 +37,6 @@ export default component$(() => {
           imageUrl={provider.imageUrl}
         />
       ))}
-      <a
-        class="border-gra mx-auto  flex  h-12 w-3/4  place-content-center rounded-sm border border-gray-200 shadow-sm"
-        href="/autentisering/registrer"
-      >
-        <span class="my-auto">Email & passord</span>
-      </a>
     </section>
   );
 });
