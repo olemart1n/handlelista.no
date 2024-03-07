@@ -33,7 +33,7 @@ export default component$(() => {
       });
     } else {
       const json = await res.json();
-      const errors = json.errors;
+      const errors = json.error;
 
       Object.keys(errors).forEach((key) => {
         setError(

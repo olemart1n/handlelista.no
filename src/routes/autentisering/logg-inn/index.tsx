@@ -33,14 +33,10 @@ export default component$(() => {
       });
     } else {
       const json = await res.json();
-      const errors = json.errors;
-
+      const errors = json.error;
       Object.keys(errors).forEach((key) => {
         setError(LoginForm, key as "email" | "password", errors[key]);
       });
-      throw new Error(
-        "Sorry, there was an error when logging in. Refresh the page and try again.",
-      );
     }
   });
   return (

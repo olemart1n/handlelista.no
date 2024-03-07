@@ -1,7 +1,7 @@
 import { component$, useSignal, useStore } from "@builder.io/qwik";
 import { routeLoader$, routeAction$ } from "@builder.io/qwik-city";
 import { getUserLists, deleteList, createList } from "~/lib/db";
-import { useAuthSignout } from "..";
+
 import { methodGet } from "~/lib";
 import type { List, User } from "~/lib";
 import { LinkToList, CreateList, UserInfoSection } from "~/components";
@@ -16,6 +16,11 @@ export const useTursoGetLists = routeLoader$(async (requestEv) => {
 export const useTursoDeleteList = routeAction$(async (form, requestEv) => {
   const { listId } = form;
   await deleteList(requestEv.env, Number(listId));
+});
+export const useAuthSignout = routeAction$((_, requestEv) => {
+  requestEv.cookie.delete("jwt");
+  requestEv.cookie.delete("userId");
+  throw requestEv.redirect(303, "/autentisering");
 });
 
 export const useTursoCreateList = routeAction$(async (form, requestEv) => {

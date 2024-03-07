@@ -1,5 +1,5 @@
 import { component$ } from "@builder.io/qwik";
-import { Link, routeAction$, routeLoader$ } from "@builder.io/qwik-city";
+import { Link, routeLoader$ } from "@builder.io/qwik-city";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { jwtDecode } from "jwt-decode";
 export const useDbCheckJwtExpired = routeLoader$(async (reqEv) => {
@@ -29,12 +29,6 @@ export default component$(() => {
       </Link>
     </>
   );
-});
-
-export const useAuthSignout = routeAction$((_, requestEv) => {
-  requestEv.cookie.delete("jwt");
-  requestEv.cookie.delete("userId");
-  throw requestEv.redirect(303, "/autentisering");
 });
 
 export const head: DocumentHead = {
