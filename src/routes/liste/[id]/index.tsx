@@ -1,7 +1,7 @@
 import { component$, useStore } from "@builder.io/qwik";
 import { ListWithItems, ListInput } from "~/components";
 import { routeAction$, routeLoader$ } from "@builder.io/qwik-city";
-import { methodGet } from "~/lib";
+import { fetchMethod } from "~/lib";
 import {
   // getListMembers,
   getListItems,
@@ -48,8 +48,12 @@ export const useTursoGetList = routeLoader$(async (requestEv) => {
 });
 export const useHerokuGetUserById = routeAction$(async (form, requestEv) => {
   const { userId } = form;
-  const cookie = requestEv.cookie.get("jwt");
-  const { data, error } = await methodGet("/v1/user/" + userId, cookie!);
+  const cookie = requestEv.cookie.get("jwt")?.value;
+  const { data, error } = await fetchMethod(
+    "POST",
+    "/v1/user/" + userId,
+    cookie!,
+  );
   if (data) return data as User;
   if (error) console.log(error);
 });
@@ -74,8 +78,9 @@ export const useTursoInsertItem = routeAction$(async (form, requestEv) => {
 });
 
 export const useTursoPurhaseItem = routeAction$(async (form, requestEv) => {
+  const { value } = requestEv.cookie.get("userId")!;
   const { itemId } = form;
-  purchaseItem(requestEv.env, Number(itemId));
+  purchaseItem(requestEv.env, Number(itemId), Number(value));
 });
 export default component$(() => {
   const list = useTursoGetList();

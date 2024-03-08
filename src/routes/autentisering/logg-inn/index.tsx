@@ -46,7 +46,7 @@ export default component$(() => {
           <div class="mb-5">
             <label
               for="email"
-              class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+              class="mb-2 block text-sm font-medium text-gray-900 "
             >
               Email
             </label>
@@ -66,9 +66,7 @@ export default component$(() => {
               ]}
             />
             {field.error && (
-              <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-                {field.error}
-              </p>
+              <p class="mt-2 text-sm text-red-600 ">{field.error}</p>
             )}
           </div>
         )}
@@ -78,9 +76,9 @@ export default component$(() => {
           <div class="mb-5">
             <label
               for="password"
-              class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+              class="mb-2 block text-sm font-medium text-gray-900 "
             >
-              Email
+              Passord
             </label>
             <input
               {...props}

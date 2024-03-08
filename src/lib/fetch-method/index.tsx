@@ -1,79 +1,51 @@
-import type { CookieValue } from "@builder.io/qwik-city";
 interface ReturnInterface {
   data: any;
   error: any
 }
-export const methodPost = async (
-  route: string,
-  cookie: CookieValue,
-  formData: object,
-) => {
-  try {
-    const req = await fetch(import.meta.env.PUBLIC_SERVER_URL + route, {
-      method: "POST",
+
+
+const headerConfig = (method: string, jwt: string, formData?: {}) => {
+  if (method === "GET" || method === "DELETE") {
+    return {
+      method: method,
       headers: {
         "Content-Type": "application/json",
-        Cookie: `jwt=${cookie.value}`,
+        authorization: `Bearer ${jwt}`,
+      },
+      
+  }
+  } else {
+    return {
+      method: method,
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${jwt}`,
       },
       body: JSON.stringify(formData),
-    });
-    return await req.json();
-  } catch (error) {
-    console.log(error);
-    return error;
+    }
   }
-};
-export const methodGet = async (route: string, cookie: CookieValue) => {
-    const req = await fetch(import.meta.env.PUBLIC_SERVER_URL + route, {
-      headers: {
-        Cookie: `jwt=${cookie.value}`,
-      },
-    });
-    const {data, error} = await req.json();
-    if(data) {
-      return {data: data, error: null}
-    } else {
-      return {data: null, error: error}
-    }
-  };
+}
 
-  export const meothodPatch = async (
-    route: string,
-    cookie: CookieValue,
-    formData: object,
-  ) => {
+export const fetchMethod = async (
+  method:string, 
+  route: string,
+  jwt: string,
+  formData?: object) : Promise<ReturnInterface> => {
+
     try {
-      const req = await fetch(import.meta.env.PUBLIC_SERVER_URL + route, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Cookie: `jwt=${cookie.value}`,
-        },
-        body: JSON.stringify(formData),
-      });
-      return await req.json();
+      const res = await fetch(import.meta.env.PUBLIC_SERVER_URL + route, headerConfig(method, jwt, formData));
+      const {data, error} =await res.json()
+      if(error) {
+        console.log("error1 " + error)
+        return {data: null, error: error}
+      } else {
+        return {data: data, error: null}
+      }
     } catch (error) {
+      console.log("error2 " + error)
       console.log(error);
-      return error;
-    }
-  };
-  export const meothodDelete = async (
-    route: string,
-    cookie: CookieValue,
-    formData: object,
-  ) => {
-    try {
-      const req = await fetch(import.meta.env.PUBLIC_SERVER_URL + route, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Cookie: `jwt=${cookie.value}`,
-        },
-        body: JSON.stringify(formData),
-      });
-      return await req.json();
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  };
+      return {data: null, error: error}
+    }  
+    
+}
+

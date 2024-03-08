@@ -5,21 +5,23 @@ export interface ItemInfoBoxProps {
   userId: number;
   itemId: number;
   element: Signal<HTMLDivElement | undefined>;
+  boughtBy: number;
+  isPurchased: boolean;
 }
 
 export const ItemInfoBox = component$<ItemInfoBoxProps>(
-  ({ userId, itemId, element }) => {
+  ({ userId, itemId, element, boughtBy, isPurchased }) => {
     const action = useHerokuGetUserById();
     const deleteItem = useTursoRemoveItem();
-
+    const infoText = isPurchased ? "Kjøpt av " : "Lagt til av ";
     useTask$(() => {
-      action.submit({ userId: userId });
+      action.submit({ userId: isPurchased ? boughtBy : userId });
     });
     return (
       <>
         <p class="my-auto ms-2">
           {action.value
-            ? "lagt til av " + action.value.name.toString().split(" ")[0]
+            ? infoText + action.value.name.toString().split(" ")[0]
             : ""}
         </p>
         <button

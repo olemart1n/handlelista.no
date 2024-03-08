@@ -1,8 +1,13 @@
-import { component$, useSignal, useStore } from "@builder.io/qwik";
+import {
+  component$,
+  useSignal,
+  useStore,
+  useVisibleTask$,
+} from "@builder.io/qwik";
 import { routeLoader$, routeAction$ } from "@builder.io/qwik-city";
 import { getUserLists, deleteList, createList } from "~/lib/db";
 
-import { methodGet } from "~/lib";
+import { fetchMethod } from "~/lib";
 import type { List, User } from "~/lib";
 import { LinkToList, CreateList, UserInfoSection } from "~/components";
 import { LuPlus } from "@qwikest/icons/lucide";
@@ -17,10 +22,13 @@ export const useTursoDeleteList = routeAction$(async (form, requestEv) => {
   const { listId } = form;
   await deleteList(requestEv.env, Number(listId));
 });
-export const useAuthSignout = routeAction$((_, requestEv) => {
-  requestEv.cookie.delete("jwt");
-  requestEv.cookie.delete("userId");
-  throw requestEv.redirect(303, "/autentisering");
+export const useSignout = routeAction$(async (_, requestEv) => {
+  const options = requestEv.url.origin.includes("localhost")
+    ? { domain: "localhost", path: "/" }
+    : { domain: ".handlelista.no", path: "/" };
+  requestEv.cookie.delete("jwt", options);
+  requestEv.cookie.delete("userId", options);
+  throw requestEv.redirect(303, "/");
 });
 
 export const useTursoCreateList = routeAction$(async (form, requestEv) => {
@@ -34,23 +42,34 @@ export const useTursoCreateList = routeAction$(async (form, requestEv) => {
   return res as unknown as List;
 });
 
-export const useHerokuGetUser = routeLoader$(async (reqEv) => {
-  const cookie = reqEv.cookie.get("jwt");
-  const { error, data } = await methodGet("/v1/auth/user", cookie!);
-  if (error) {
-    return error as User;
-  } else return data as User;
+export const useDeliverJwt = routeLoader$((requestEv) => {
+  const jwt = requestEv.cookie.get("jwt");
+  if (jwt && jwt.value) {
+    return { token: jwt.value as string };
+  } else {
+    return { token: "no token was found" };
+  }
 });
 
 export default component$(() => {
-  const user = useHerokuGetUser();
+  // const user = useHerokuGetUser();
+  const jwt = useDeliverJwt();
+  interface HandleUserData {
+    data: User | null;
+  }
+  const user = useStore<HandleUserData>({ data: null });
   const routeData = useTursoGetLists();
   const listStore = useStore(routeData.value);
   const isAddingList = useSignal(false);
-  const signOut = useAuthSignout();
+  const signOut = useSignout();
+  // eslint-disable-next-line qwik/no-use-visible-task
+  useVisibleTask$(async () => {
+    const { data } = await fetchMethod("GET", "/v1/auth/user", jwt.value.token);
+    if (data) user.data = data as User;
+  });
   return (
     <>
-      <UserInfoSection props={user.value} />
+      {user.data && <UserInfoSection props={user.data} />}
 
       <div class="mx-auto my-3 w-11/12">
         <div class="flex">
@@ -78,7 +97,7 @@ export default component$(() => {
       <div class="ms-10 mt-10 flex w-1/3 flex-col justify-between gap-5">
         <button
           onClick$={() => {
-            signOut.submit().then(() => console.log("hello"));
+            signOut.submit();
           }}
           class="rounded border bg-slate-200 p-1.5 shadow-sm"
         >

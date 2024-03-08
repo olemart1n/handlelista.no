@@ -51,6 +51,8 @@ export const Item = component$<ItemProps>(({ props }) => {
             userId={props.user_id}
             itemId={props.id}
             element={divEl}
+            boughtBy={props.bought_by}
+            isPurchased={props.purchased}
           />
         </div>
       )}

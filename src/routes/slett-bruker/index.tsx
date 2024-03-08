@@ -1,15 +1,19 @@
 import { component$ } from "@builder.io/qwik";
 import { routeAction$ } from "@builder.io/qwik-city";
 import { deleteUser } from "~/lib/db/delete-user";
-import { meothodDelete } from "~/lib";
-export const useAuthDeleteUser = routeAction$(async (form, requestEv) => {
-  const cookie = requestEv.cookie.get("userId");
+import { fetchMethod } from "~/lib";
+export const useAuthDeleteUser = routeAction$(async (_, requestEv) => {
+  const jwt = requestEv.cookie.get("jwt")?.value;
   const userId = requestEv.cookie.get("userId")?.value;
-  deleteUser(requestEv.env, Number(userId));
-  meothodDelete("/v1/auth/user", cookie!, { userId: userId });
-  requestEv.cookie.delete("jwt");
-  requestEv.cookie.delete("userId");
-  requestEv.redirect(303, "/");
+  await deleteUser(requestEv.env, Number(userId));
+  await fetchMethod("DELETE", "/v1/auth/user", jwt!);
+
+  const options = requestEv.url.origin.includes("localhost")
+    ? { domain: "localhost", path: "/" }
+    : { domain: ".handlelista.no", path: "/" };
+  requestEv.cookie.delete("jwt", options);
+  requestEv.cookie.delete("userId", options);
+  throw requestEv.redirect(303, "/");
 });
 export default component$(() => {
   const del = useAuthDeleteUser();
