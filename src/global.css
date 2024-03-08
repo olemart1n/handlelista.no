@@ -20,6 +20,7 @@ html {
     BlinkMacSystemFont,
     "Segoe UI",
     Roboto;
+  background-color: grey;
 }
 
 body {
@@ -29,7 +30,9 @@ body {
   display: grid;
   grid-template-rows: auto 1fr;
   height: 100dvh;
-  max-width: 400px;
+  max-width: 500px;
+  margin: auto;
+  background-color: white;
 }
 .barlow {
   font-family: "Barlow Semi Condensed", sans-serif;

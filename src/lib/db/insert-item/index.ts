@@ -4,8 +4,8 @@ import type { List } from "~/lib/types";
 export const insertItem = async (
   env: EnvGetter,
   itemName: string,
-  list_id: string,
-  user_id: string,
+  list_id: number,
+  user_id: number,
 ) => {
   try {
     const client = turso(env);

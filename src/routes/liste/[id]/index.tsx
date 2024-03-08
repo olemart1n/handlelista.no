@@ -50,7 +50,7 @@ export const useHerokuGetUserById = routeAction$(async (form, requestEv) => {
   const { userId } = form;
   const cookie = requestEv.cookie.get("jwt")?.value;
   const { data, error } = await fetchMethod(
-    "POST",
+    "GET",
     "/v1/user/" + userId,
     cookie!,
   );
@@ -64,15 +64,13 @@ export const useTursoRemoveItem = routeAction$(async (form, requestEv) => {
 });
 
 export const useTursoInsertItem = routeAction$(async (form, requestEv) => {
-  const pathname = requestEv.url.pathname;
-  const id = pathname.match(/\/liste\/(\d+)\//);
-  const userId = requestEv.cookie.get("userId")?.value;
+  const { value } = requestEv.cookie.get("userId")!;
   const { name } = form;
   const res = await insertItem(
     requestEv.env,
     name.toString(),
-    id![1],
-    JSON.stringify(userId),
+    Number(requestEv.params.id),
+    Number(value),
   );
   return res;
 });
