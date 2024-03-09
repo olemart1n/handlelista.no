@@ -41,6 +41,7 @@ export default component$(() => {
   });
   return (
     <Form onSubmit$={signIn}>
+      <h2 class="text-center text-lg ">Logg inn</h2>
       <Field name="email">
         {(field, props) => (
           <div class="mb-5">

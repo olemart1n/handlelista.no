@@ -24,6 +24,7 @@ export default component$(() => {
   ];
   return (
     <section class="mt-5 flex flex-col gap-3">
+      <h2 class="text-center text-lg ">Du må logge inn</h2>
       <a
         class="border-gra mx-auto  flex  h-12 w-3/4  place-content-center rounded-sm border border-gray-200 shadow-sm"
         href="/autentisering/registrer"

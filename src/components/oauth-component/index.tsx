@@ -11,15 +11,15 @@ export const OAuthComponent = component$<OAuthComponentProps>(
     return (
       <a
         href={import.meta.env.PUBLIC_SERVER_URL + "/v1/auth/" + provider}
-        class="mx-auto flex  w-3/4  place-content-center rounded-md border border-gray-200 shadow-sm "
+        class="mx-auto flex  w-3/4 justify-around  rounded-md border border-gray-200 p-1 shadow-sm "
       >
         {" "}
         <img
           src={imageUrl}
-          class="  mx-3 my-auto w-16"
+          class=" mx-3 my-auto "
           alt="google logo"
-          height={50}
-          width={50}
+          height={40}
+          width={40}
         />
         <span class="my-auto">{providerCapitalized}</span>
       </a>

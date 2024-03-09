@@ -51,7 +51,7 @@ export default component$(() => {
   });
   return (
     <Form onSubmit$={register}>
-      <h2 class="text-center">Registrer deg</h2>
+      <h2 class="text-center text-lg ">Registrer deg</h2>
       <h3 class="my-10 bg-green-200 text-center text-lg underline">
         Du kan bruke fiktiv email, navn og passord !
       </h3>
