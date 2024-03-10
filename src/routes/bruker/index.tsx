@@ -71,14 +71,14 @@ export default component$(() => {
     <>
       {user.data && <UserInfoSection props={user.data} />}
 
-      <div class="mx-auto my-3 w-11/12">
+      <div class="mx-auto my-3 w-11/12 lg:w-2/3">
         <div class="flex">
           <h2 class="my-auto text-center text-2xl">Dine handlelister</h2>
           <button
             onClick$={() => (isAddingList.value = !isAddingList.value)}
-            class="my-3 ms-auto flex rounded border-2 border-gray-600 bg-green-300 p-2.5 text-center shadow-lg"
+            class="my-3 ms-auto flex rounded border-2 border-slate-200 bg-green-500 p-1  text-center shadow-lg"
           >
-            <LuPlus class="text-lg" />
+            <LuPlus class={"h-8 w-8  " + (isAddingList.value && "rotate-45")} />
           </button>
         </div>
         {listStore.list?.map((list: List) => (
@@ -94,7 +94,7 @@ export default component$(() => {
           <CreateList isVisible={isAddingList} list={listStore.list!} />
         )}
       </div>
-      <div class="ms-10 mt-10 flex w-1/3 flex-col justify-between gap-5">
+      <div class="ms-10 mt-10 flex w-28 flex-col justify-between gap-5 lg:mx-auto">
         <button
           onClick$={() => {
             signOut.submit();

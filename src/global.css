@@ -20,7 +20,6 @@ html {
     BlinkMacSystemFont,
     "Segoe UI",
     Roboto;
-  background-color: grey;
 }
 
 body {
@@ -30,7 +29,7 @@ body {
   display: grid;
   grid-template-rows: auto 1fr;
   height: 100dvh;
-  max-width: 500px;
+  max-width: 1200px;
   margin: auto;
   background-color: white;
 }

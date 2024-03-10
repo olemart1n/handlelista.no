@@ -10,7 +10,7 @@ export const LinkToList = component$<List>(({ id, title }) => {
     <div
       ref={divEl}
       key={id}
-      class="border-1 mx-auto my-1 flex h-12 w-full justify-between bg-slate-100 align-middle shadow-md"
+      class="border-1 mx-auto my-2 flex h-12 w-full justify-between bg-slate-100  align-middle shadow-md"
     >
       {isInfoClicked.value ? (
         <LinkToListInfoBox listId={id} divEl={divEl} />

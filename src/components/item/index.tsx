@@ -15,7 +15,7 @@ export const Item = component$<ItemProps>(({ props }) => {
   return (
     <div
       ref={divEl}
-      class=" mx-auto my-2 flex h-10 w-11/12  rounded-lg border  text-gray-800  shadow-[0_2px_15px_-3px_rgba(d,f,d,f.2),0_10px_20px_-2px_rgba(0,0,0,0.1)] "
+      class=" mx-auto my-2 flex h-10 w-11/12  rounded-lg border text-gray-800  shadow-[0_2px_15px_-3px_rgba(d,f,d,f.2),0_10px_20px_-2px_rgba(0,0,0,0.9)] "
     >
       <button onClick$={() => (isInfo.value = !isInfo.value)}>
         <LuInfo class="ms-2 h-4 w-4 text-gray-400" />
@@ -29,7 +29,10 @@ export const Item = component$<ItemProps>(({ props }) => {
             </h5>
           </div>
           {props.purchased ? (
-            <button class="m-auto mx-5 aspect-square h-6 w-6 rounded-sm bg-green-200 shadow-md">
+            <button
+              class="m-auto mx-5 aspect-square h-6 w-6 rounded-sm bg-green-200 shadow-md"
+              disabled
+            >
               <LuCheckCheck class="m-auto" />
             </button>
           ) : (
@@ -38,6 +41,7 @@ export const Item = component$<ItemProps>(({ props }) => {
               onClick$={() => {
                 togglePurchase.submit({ itemId: props.id });
                 props.purchased = true;
+                props.bought_by = props.user_id;
               }}
             >
               <LuCheck class="m-auto" />
