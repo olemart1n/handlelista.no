@@ -1,5 +1,5 @@
 import { component$, useSignal } from "@builder.io/qwik";
-import { Link } from "@builder.io/qwik-city";
+
 import type { List } from "~/lib";
 import { LuMoreVertical } from "@qwikest/icons/lucide";
 import { LinkToListInfoBox } from "../link-to-list-info-box";
@@ -15,9 +15,9 @@ export const LinkToList = component$<List>(({ id, title }) => {
       {isInfoClicked.value ? (
         <LinkToListInfoBox listId={id} divEl={divEl} />
       ) : (
-        <Link class="my-auto w-full p-2 text-lg" href={`/liste/${id}`}>
+        <a class="my-auto w-full p-2 text-lg" href={`/liste/${id}`}>
           {title}
-        </Link>
+        </a>
       )}
 
       <button onClick$={() => (isInfoClicked.value = !isInfoClicked.value)}>

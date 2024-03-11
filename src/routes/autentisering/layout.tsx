@@ -9,7 +9,7 @@ export const useServerTimeLoader = routeLoader$(() => {
 
 export default component$(() => {
   return (
-    <div class="mx-auto mt-5 lg:w-1/2">
+    <div class="mx-auto mt-5 w-11/12 lg:w-1/2">
       <Slot />
     </div>
   );
