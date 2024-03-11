@@ -7,19 +7,13 @@ export const useTursoInitializeUser = routeLoader$(async (reqEv) => {
   const userId = reqEv.cookie.get("userId")?.value;
   try {
     initializeUser(reqEv.env, Number(userId!));
+    console.log("logged from 'useTursoInitializeUse'");
   } catch (error) {
     return { user: null, error: "problem oppsto" };
   }
 });
-export const useDeliverJwt = routeLoader$((requestEv) => {
-  const jwt = requestEv.cookie.get("jwt");
-  if (jwt && jwt.value) {
-    return { token: jwt.value as string };
-  } else {
-    return { token: "no token was found" };
-  }
-});
 export default component$(() => {
+  useTursoInitializeUser();
   const nav = useNavigate();
   // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(async () => {

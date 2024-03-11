@@ -1,5 +1,4 @@
 import { component$, useSignal, type Signal, $ } from "@builder.io/qwik";
-
 import { LuCheck, LuLoader2 } from "@qwikest/icons/lucide";
 import { useTursoCreateList } from "~/routes/bruker";
 import type { List } from "~/lib";
@@ -17,7 +16,6 @@ export const CreateList = component$<CreateListProps>(({ isVisible, list }) => {
     create
       .submit({ title: title.value })
       .then((data) => {
-        console.log(data);
         list.push(data.value as unknown as List);
       })
       .then(() => {
@@ -27,7 +25,7 @@ export const CreateList = component$<CreateListProps>(({ isVisible, list }) => {
       .catch((err) => console.log(err));
   });
   return (
-    <form class="my-2 flex h-10" preventdefault:submit>
+    <form class="my-2 flex h-10" preventdefault:submit onsubmit$={submitList}>
       <input
         bind:value={title}
         type="text"
@@ -44,7 +42,6 @@ export const CreateList = component$<CreateListProps>(({ isVisible, list }) => {
           (title.value.length > 2 ? "bg-green-300" : "bg-green-100")
         }
         disabled={title.value.length < 2}
-        onClick$={submitList}
       >
         {isLoading.value ? (
           <LuLoader2 class="m-auto h-8 w-8 animate-spin text-white" />

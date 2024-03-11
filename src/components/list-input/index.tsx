@@ -8,20 +8,24 @@ interface ListInputProps {
 }
 export const ListInput = component$<ListInputProps>(({ list }) => {
   const inputValue = useSignal("");
-  const isInFocus = useSignal(false);
   const insertItem = useTursoInsertItem();
-
+  const focusOutHiddenBtn = useSignal<HTMLButtonElement>();
   return (
-    <>
+    <form
+      class="flex h-full w-full"
+      preventdefault:submit
+      onsubmit$={() => {
+        if (inputValue.value.length < 3) return;
+        insertItem.submit({ name: inputValue.value }).then((data) => {
+          list.push(data.value as unknown as ListItem);
+          inputValue.value = "";
+          focusOutHiddenBtn.value?.focus();
+        });
+      }}
+    >
       {" "}
       <input
         bind:value={inputValue}
-        onFocusOut$={() => (isInFocus.value = false)}
-        onKeyUp$={() =>
-          inputValue.value.length > 2
-            ? (isInFocus.value = true)
-            : (isInFocus.value = false)
-        }
         type="text"
         name="item"
         maxLength={20}
@@ -31,21 +35,17 @@ export const ListInput = component$<ListInputProps>(({ list }) => {
         }
       ></input>
       <button
-        onFocusIn$={() => (isInFocus.value = true)}
-        onFocusOut$={() => (isInFocus.value = false)}
+        ref={focusOutHiddenBtn}
+        class="absolute -left-full"
+        type="button"
+      ></button>
+      <button
         class={
           "right-0 m-1 my-auto ms-auto h-14 w-14 rounded bg-green-200 " +
-          (isInFocus.value && "z-20 bg-green-300")
-        }
-        onClick$={() =>
-          insertItem.submit({ name: inputValue.value }).then((data) => {
-            list.push(data.value as unknown as ListItem);
-            inputValue.value = "";
-            isInFocus.value = false;
-          })
+          (inputValue.value.length > 2 && "z-20 bg-green-300")
         }
       >
-        {isInFocus.value ? (
+        {inputValue.value.length > 2 ? (
           <LuCheck
             class="m-auto h-12 w-12"
             aria-hidden="true"
@@ -59,6 +59,6 @@ export const ListInput = component$<ListInputProps>(({ list }) => {
           />
         )}
       </button>
-    </>
+    </form>
   );
 });

@@ -91,7 +91,7 @@ export default component$(() => {
       <h2 class="barlow absolute right-2 top-2 lg:right-1/2">
         {list.value.data?.title}
       </h2>
-      <div class="relative mx-auto flex h-16 w-11/12 justify-between rounded-sm border shadow-md drop-shadow-sm lg:w-1/2">
+      <div class="relative mx-auto h-16 w-11/12 rounded-sm border shadow-md drop-shadow-sm lg:w-1/2">
         <ListInput list={listStore.data!} />
       </div>
       <div class="mx-auto mt-3 flex min-h-[400px] flex-col justify-between lg:w-1/2">
