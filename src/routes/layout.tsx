@@ -4,7 +4,7 @@ import {
   useStore,
   useContextProvider,
 } from "@builder.io/qwik";
-import { routeLoader$ } from "@builder.io/qwik-city";
+import { routeAction$, routeLoader$ } from "@builder.io/qwik-city";
 import { type RequestHandler } from "@builder.io/qwik-city";
 import { Nav } from "~/components";
 import { appContext, type App } from "~/context";
@@ -19,6 +19,21 @@ export const onGet: RequestHandler = async ({ cacheControl }) => {
   });
 };
 
+export const useGetTheme = routeLoader$((requestEv) => {
+  return requestEv.cookie.get("theme")?.value as string;
+});
+
+export const useSetTheme = routeAction$((_, requestEv) => {
+  if (requestEv.cookie.get("theme")?.value === "dark") {
+    requestEv.cookie.delete("theme", { path: "/" });
+  } else {
+    requestEv.cookie.set("theme", "dark", {
+      expires: "999999999",
+      path: "/",
+    });
+  }
+});
+
 export const useServerTimeLoader = routeLoader$(() => {
   return {
     date: new Date().toISOString(),
@@ -26,17 +41,32 @@ export const useServerTimeLoader = routeLoader$(() => {
 });
 
 export default component$(() => {
+  const theme = useGetTheme();
+
+  console.log(theme.value);
   const appState: App = useStore({
-    theme: "light",
+    theme: theme.value,
   });
   useContextProvider(appContext, appState);
 
   return (
     <>
-      <header>
+      <header
+        class={
+          theme.value +
+          " transition duration-300" +
+          (theme.value === "dark" ? " bg-zinc-400" : "")
+        }
+      >
         <Nav />
       </header>
-      <main>
+      <main
+        class={
+          theme.value +
+          " transition duration-300" +
+          (theme.value === "dark" ? " bg-sky-800" : "")
+        }
+      >
         <Slot />
       </main>
     </>

@@ -8,8 +8,8 @@ export const getUserLists = async (env: EnvGetter, id: string) => {
       sql: "SELECT lists.*, user_list.role FROM lists JOIN user_list ON lists.id = user_list.list_id WHERE user_list.user_id = ?",
       args: [id],
     });
-
-    return res.rows as unknown as List[];
+      return res.rows as unknown as List[];
+    
   } catch (error) {
     console.log("logged from the catchblock: /b/ " + error);
   }

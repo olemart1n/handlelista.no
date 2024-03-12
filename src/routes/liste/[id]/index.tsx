@@ -1,6 +1,7 @@
 import { component$, useStore } from "@builder.io/qwik";
 import { ListWithItems, ListInput } from "~/components";
-import { routeAction$, routeLoader$ } from "@builder.io/qwik-city";
+import { routeAction$, routeLoader$, Link } from "@builder.io/qwik-city";
+import { LuArrowLeft } from "@qwikest/icons/lucide";
 import { fetchMethod } from "~/lib";
 import {
   // getListMembers,
@@ -88,13 +89,23 @@ export default component$(() => {
   const listStore = useStore(listItems.value);
   return (
     <>
-      <h2 class="barlow absolute right-2 top-2 lg:right-1/2">
-        {list.value.data?.title}
-      </h2>
-      <div class="relative mx-auto h-16 w-11/12 rounded-sm border shadow-md drop-shadow-sm lg:w-1/2">
+      <div class="mx-auto my-1 flex w-11/12 justify-between">
+        {" "}
+        <Link
+          href="/bruker"
+          class="py-.5 flex rounded-sm border-2 border-gray-400 px-1 text-lg dark:border-slate-50 "
+        >
+          <LuArrowLeft class="my-auto text-lg" /> <p>Bruker</p>
+        </Link>
+        <h2 class="barlow my-auto dark:text-slate-50">
+          {list.value.data?.title}
+        </h2>
+      </div>
+
+      <div class="relative mx-auto h-16 w-11/12 rounded-sm border shadow-md drop-shadow-sm dark:bg-slate-200 lg:w-1/2">
         <ListInput list={listStore.data!} />
       </div>
-      <div class="mx-auto mt-3 flex min-h-[400px] flex-col justify-between lg:w-1/2">
+      <div class="mx-auto mt-3 flex min-h-[400px] flex-col justify-between dark:text-slate-50 lg:w-1/2">
         <ListWithItems list={listStore.data!} />
       </div>
     </>

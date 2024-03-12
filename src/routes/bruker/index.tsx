@@ -15,6 +15,7 @@ import { LuPlus } from "@qwikest/icons/lucide";
 export const useTursoGetLists = routeLoader$(async (requestEv) => {
   const userId = requestEv.cookie.get("userId")?.value;
   const res = await getUserLists(requestEv.env, userId!);
+
   return { list: res };
 });
 
@@ -62,11 +63,13 @@ export default component$(() => {
   const listStore = useStore(routeData.value);
   const isAddingList = useSignal(false);
   const signOut = useSignout();
+  const inputToFocusOn = useSignal<HTMLInputElement | undefined>();
   // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(async () => {
     const { data } = await fetchMethod("GET", "/v1/auth/user", jwt.value.token);
     if (data) user.data = data as User;
   });
+
   return (
     <>
       {user.data && <UserInfoSection props={user.data} />}
@@ -75,7 +78,10 @@ export default component$(() => {
         <div class="flex">
           <h2 class="my-auto text-center text-2xl">Dine handlelister</h2>
           <button
-            onClick$={() => (isAddingList.value = !isAddingList.value)}
+            onClick$={() => {
+              isAddingList.value = !isAddingList.value;
+              inputToFocusOn.value && inputToFocusOn.value.focus();
+            }}
             class="my-3 ms-auto flex rounded border-2 border-slate-200 bg-green-500 p-1  text-center shadow-lg"
           >
             <LuPlus class={"h-8 w-8  " + (isAddingList.value && "rotate-45")} />
@@ -90,9 +96,11 @@ export default component$(() => {
             role={list.role}
           />
         ))}
-        {isAddingList.value && (
-          <CreateList isVisible={isAddingList} list={listStore.list!} />
-        )}
+        <CreateList
+          isVisible={isAddingList}
+          list={listStore.list!}
+          inputRef={inputToFocusOn}
+        />
       </div>
       <div class="ms-10 mt-10 flex w-28 flex-col justify-between gap-5 lg:mx-auto">
         <button
