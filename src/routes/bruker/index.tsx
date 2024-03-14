@@ -75,14 +75,16 @@ export default component$(() => {
       {user.data && <UserInfoSection props={user.data} />}
 
       <div class="mx-auto my-3 w-11/12 lg:w-2/3">
-        <div class="flex">
-          <h2 class="my-auto text-center text-2xl">Dine handlelister</h2>
+        <div class="flex ">
+          <h2 class="my-auto text-center text-2xl dark:text-slate-50">
+            Dine handlelister
+          </h2>
           <button
             onClick$={() => {
               isAddingList.value = !isAddingList.value;
               inputToFocusOn.value && inputToFocusOn.value.focus();
             }}
-            class="my-3 ms-auto flex rounded border-2 border-slate-200 bg-green-500 p-1  text-center shadow-lg"
+            class="my-3 ms-auto flex rounded-sm bg-green-400 p-1 text-center shadow-lg  outline outline-1"
           >
             <LuPlus class={"h-8 w-8  " + (isAddingList.value && "rotate-45")} />
           </button>

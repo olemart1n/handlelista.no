@@ -64,7 +64,7 @@ export default component$(() => {
         class={
           theme.value +
           " transition duration-300" +
-          (theme.value === "dark" ? " bg-sky-800" : "")
+          (theme.value === "dark" ? " bg-slate-800" : "")
         }
       >
         <Slot />

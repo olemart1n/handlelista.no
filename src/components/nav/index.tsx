@@ -13,7 +13,7 @@ export const Nav = component$(() => {
         <h1>handlelista.no</h1>
       </Link>
       <button
-        class="relative  flex h-4 w-9 items-center rounded-full shadow shadow-gray-950 transition  duration-300 dark:text-slate-50 dark:outline dark:outline-1 lg:mx-0 lg:my-0"
+        class="relative  flex h-4 w-9 items-center rounded-full outline outline-1 transition  duration-300 dark:text-slate-50 dark:outline dark:outline-1 lg:mx-0 lg:my-0"
         onClick$={() => {
           app.theme === "dark" ? (app.theme = "light") : (app.theme = "dark");
           setTheme.submit();

@@ -37,14 +37,14 @@ export const Item = component$<ItemProps>(({ props }) => {
             </button>
           ) : (
             <button
-              class="m-auto mx-5 aspect-square h-6 w-6 rounded-sm shadow-md"
+              class="m-auto mx-5 aspect-square h-6 w-6 rounded-sm shadow-md shadow-gray-200 outline outline-1"
               onClick$={() => {
                 togglePurchase.submit({ itemId: props.id });
                 props.purchased = true;
                 props.bought_by = props.user_id;
               }}
             >
-              <LuCheck class="m-auto" />
+              <LuCheck class="m-auto text-gray-400" />
             </button>
           )}
         </div>
@@ -62,11 +62,3 @@ export const Item = component$<ItemProps>(({ props }) => {
     </div>
   );
 });
-
-// onChange$={async () => {
-// if (!thisEl.value) return;
-// const { top } = thisEl.value.getBoundingClientRect();
-// animation.idOfComponentToMove = props.id;
-// animation.originPositionTop = top;
-// isToggled.value = !isToggled.value;
-// }}
