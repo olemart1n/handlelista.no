@@ -1,5 +1,5 @@
 import { component$, type Signal } from "@builder.io/qwik";
-import { LuTrash2 } from "@qwikest/icons/lucide";
+import { LuTrash2, LuArrowUpSquare } from "@qwikest/icons/lucide";
 import { useTursoDeleteList } from "~/routes/bruker";
 export interface LinkToListInfoBoxProps {
   listId: number;
@@ -14,14 +14,18 @@ export const LinkToListInfoBox = component$<LinkToListInfoBoxProps>(
     // user.submit({ userId: userId });
     // });
     return (
-      <div>
+      <div class="flex">
         <button
-          class="h-full"
+          class="h-full w-10 bg-yellow-100"
           onClick$={() =>
             del.submit({ listId: listId }).then(() => divEl.value!.remove())
           }
         >
-          <LuTrash2 class="my-auto ms-5 text-lg" />
+          <LuTrash2 class="m-auto text-lg" />
+        </button>
+        <button class="flex h-full w-20 place-content-center bg-blue-100">
+          <LuArrowUpSquare class="my-auto text-lg" />
+          <span class="my-auto text-sm">Inviter</span>
         </button>
       </div>
     );

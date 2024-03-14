@@ -6,7 +6,7 @@ interface UserInfoSection {
 
 export const UserInfoSection = component$<UserInfoSection>(({ props }) => {
   return (
-    <div class="mx-auto flex w-full justify-around border-b-2 p-1 dark:text-slate-50 lg:w-1/2 lg:border-none">
+    <div class="mx-auto flex w-full justify-around p-1 dark:text-slate-50 lg:w-1/2 lg:border-none">
       <section>
         <h1 class="mt-2 text-xl">{props.name}</h1>
         <h2 class="mb-2 ">{props.email}</h2>

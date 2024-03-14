@@ -7,7 +7,7 @@ import { LinkToListInfoBox } from "../link-to-list-info-box";
 import { Link } from "@builder.io/qwik-city";
 export const LinkToList = component$<List>(({ id, title }) => {
   const isNavigating = useSignal(false);
-  const isInfoClicked = useSignal(false);
+  const isInfoClicked = useSignal(true);
   const divEl = useSignal<HTMLDivElement>();
 
   return (
@@ -32,7 +32,7 @@ export const LinkToList = component$<List>(({ id, title }) => {
         <LuLoader2 class="my-auto h-8 w-8 animate-spin text-gray-600" />
       ) : (
         <button onClick$={() => (isInfoClicked.value = !isInfoClicked.value)}>
-          <LuMoreVertical class="h-6 w-6" />
+          <LuMoreVertical class="h-6 w-6 " />
         </button>
       )}
     </div>

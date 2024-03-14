@@ -42,8 +42,6 @@ export const useServerTimeLoader = routeLoader$(() => {
 
 export default component$(() => {
   const theme = useGetTheme();
-
-  console.log(theme.value);
   const appState: App = useStore({
     theme: theme.value,
   });
