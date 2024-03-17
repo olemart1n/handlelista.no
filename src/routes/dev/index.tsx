@@ -8,6 +8,7 @@ export default component$(() => {
     text: "Learn web development on MDN!",
     url: "https://developer.mozilla.org",
   };
+  // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(() => {
     btn.value?.addEventListener("click", async () => {
       try {

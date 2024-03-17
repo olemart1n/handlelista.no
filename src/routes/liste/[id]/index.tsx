@@ -95,7 +95,8 @@ export default component$(() => {
           href="/bruker"
           class="py-.5 flex rounded-sm border-2 border-gray-400 px-1 text-lg dark:border-slate-50 "
         >
-          <LuArrowLeft class="my-auto text-lg" /> <p>Bruker</p>
+          <LuArrowLeft class="my-auto text-lg" />{" "}
+          <p class="dark:text-slate-50">Bruker</p>
         </Link>
         <h2 class="barlow my-auto dark:text-slate-50">
           {list.value.data?.title}

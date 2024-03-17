@@ -4,24 +4,59 @@ import {
   useStore,
   useVisibleTask$,
 } from "@builder.io/qwik";
-import { routeLoader$, routeAction$ } from "@builder.io/qwik-city";
-import { getUserLists, deleteList, createList } from "~/lib/db";
-
+import {
+  routeLoader$,
+  routeAction$,
+  server$,
+  type RequestEvent,
+} from "@builder.io/qwik-city";
+import {
+  getUserLists,
+  deleteList,
+  createList,
+  addMemberToList,
+  removeListMember,
+} from "~/lib/db";
+import { decodeInvitationId } from "~/lib";
 import { fetchMethod } from "~/lib";
 import type { List, User } from "~/lib";
-import { LinkToList, CreateList, UserInfoSection } from "~/components";
+import {
+  LinkToList,
+  CreateList,
+  UserInfoSection,
+  LinkToJoinedList,
+} from "~/components";
 import { LuPlus } from "@qwikest/icons/lucide";
-
 export const useTursoGetLists = routeLoader$(async (requestEv) => {
   const userId = requestEv.cookie.get("userId")?.value;
   const res = await getUserLists(requestEv.env, userId!);
+  const owner = res?.filter((list: List) => list.role === "owner");
+  const member = res?.filter((list: List) => list.role === "member");
+  return { owner, member };
+});
 
-  return { list: res };
+export const addMemberToListServer = server$(async function (
+  encryptedId: string,
+) {
+  const requestEvent = this as RequestEvent;
+  const userId = requestEvent.cookie.get("userId")?.value;
+  const listId = decodeInvitationId(requestEvent, encryptedId);
+  const res = await addMemberToList(
+    requestEvent.env,
+    Number(userId),
+    Number(listId),
+  );
+  return res;
 });
 
 export const useTursoDeleteList = routeAction$(async (form, requestEv) => {
   const { listId } = form;
   await deleteList(requestEv.env, Number(listId));
+});
+export const useTursoRemoveMember = routeAction$(async (form, requestEv) => {
+  const userId = requestEv.cookie.get("userId")?.value;
+  const { listId } = form;
+  await removeListMember(requestEv.env, Number(userId), Number(listId));
 });
 export const useSignout = routeAction$(async (_, requestEv) => {
   const options = requestEv.url.origin.includes("localhost")
@@ -68,6 +103,12 @@ export default component$(() => {
   useVisibleTask$(async () => {
     const { data } = await fetchMethod("GET", "/v1/auth/user", jwt.value.token);
     if (data) user.data = data as User;
+    const invitation = sessionStorage.getItem("invitation");
+    if (invitation) {
+      const res = await addMemberToListServer(invitation);
+      sessionStorage.removeItem("invitation");
+      listStore.member?.push(res!);
+    }
   });
 
   return (
@@ -89,7 +130,12 @@ export default component$(() => {
             <LuPlus class={"h-8 w-8  " + (isAddingList.value && "rotate-45")} />
           </button>
         </div>
-        {listStore.list?.map((list: List) => (
+        <CreateList
+          isVisible={isAddingList}
+          list={listStore.owner!}
+          inputRef={inputToFocusOn}
+        />
+        {listStore.owner?.map((list: List) => (
           <LinkToList
             key={list.id}
             id={list.id}
@@ -98,12 +144,24 @@ export default component$(() => {
             role={list.role}
           />
         ))}
-        <CreateList
-          isVisible={isAddingList}
-          list={listStore.list!}
-          inputRef={inputToFocusOn}
-        />
+        <div class="mt-10">
+          {listStore.member!.length > 0 && (
+            <h2 class="my-auto text-center text-xl dark:text-slate-50">
+              Lister du er med på
+            </h2>
+          )}
+          {listStore.member?.map((list: List) => (
+            <LinkToJoinedList
+              key={list.id}
+              id={list.id}
+              title={list.title}
+              created_at={list.role}
+              role={list.role}
+            />
+          ))}
+        </div>
       </div>
+
       <div class="ms-10 mt-10 flex w-28 flex-col justify-between gap-5 lg:mx-auto">
         <button
           onClick$={() => {

@@ -10,5 +10,7 @@ export * from './insert-item'
 export * from './purchase-item'
 export * from './remove-item'
 export * from './find-user-by-id'
+export * from './add-member-to-list'
+export * from './remove-list-member'
 
 

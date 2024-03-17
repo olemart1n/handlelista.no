@@ -8,6 +8,6 @@ export const deleteList = async (env: EnvGetter, listId: number) => {
       args: [listId],
     });
   } catch (error) {
-    console.log("logged from the catchblock: /b/ " + error);
+    console.log("logged from the catchblock: \n " + error);
   }
 };

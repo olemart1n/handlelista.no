@@ -6,3 +6,5 @@ export * from "./create-list";
 export * from "./item-info-box";
 export * from "./list-input";
 export * from "./list-with-items";
+export * from "./link-to-joined-list";
+export * from "./link-to-joined-list-info-box";

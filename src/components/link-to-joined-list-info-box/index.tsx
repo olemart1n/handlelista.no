@@ -1,7 +1,7 @@
 import { component$, type Signal, useSignal } from "@builder.io/qwik";
 import { type RequestEvent, server$ } from "@builder.io/qwik-city";
-import { LuTrash2, LuArrowUpSquare, LuCheck } from "@qwikest/icons/lucide";
-import { useTursoDeleteList } from "~/routes/bruker";
+import { LuArrowUpSquare, LuCheck } from "@qwikest/icons/lucide";
+import { useTursoRemoveMember } from "~/routes/bruker";
 import { LuCopy } from "@qwikest/icons/lucide";
 import { encodeInvitationId } from "~/lib";
 export interface LinkToListInfoBoxProps {
@@ -14,9 +14,9 @@ const generateEncryptedId = server$(function (listId: number) {
   return encodeInvitationId(requestEvent, listId);
 });
 
-export const LinkToListInfoBox = component$<LinkToListInfoBoxProps>(
+export const LinkToJoinedListInfoBox = component$<LinkToListInfoBoxProps>(
   ({ listId, divEl }) => {
-    const del = useTursoDeleteList();
+    const del = useTursoRemoveMember();
     const isCopied = useSignal(false);
     // SENERE KAN MELDEMMER AV LISTEN INKLUDERES I DENNE INFO BOKSEN
     // useTask$(() => {
@@ -25,12 +25,12 @@ export const LinkToListInfoBox = component$<LinkToListInfoBoxProps>(
     return (
       <div class="flex">
         <button
-          class="h-full w-10 bg-yellow-100"
+          class="h-full w-40 bg-yellow-100"
           onClick$={() =>
             del.submit({ listId: listId }).then(() => divEl.value!.remove())
           }
         >
-          <LuTrash2 class="m-auto text-lg" />
+          <p class="my-auto text-sm">Meld meg av</p>
         </button>
         <div>
           {isCopied.value ? (

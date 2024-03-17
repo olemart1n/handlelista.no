@@ -1,7 +1,6 @@
 import { type EnvGetter } from "@builder.io/qwik-city/middleware/request-handler";
 import { turso } from "../turso";
 export const initializeUser = async (env: EnvGetter, id: number) => {
-    console.log(id)
   try {
     const client = turso(env);
     const transaction = await client.transaction("write");

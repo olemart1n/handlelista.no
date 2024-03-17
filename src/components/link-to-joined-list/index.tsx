@@ -2,10 +2,10 @@ import { component$, useSignal } from "@builder.io/qwik";
 
 import type { List } from "~/lib";
 import { LuLoader2, LuMoreVertical } from "@qwikest/icons/lucide";
-import { LinkToListInfoBox } from "../link-to-list-info-box";
+import { LinkToJoinedListInfoBox } from "../link-to-joined-list-info-box";
 
 import { Link } from "@builder.io/qwik-city";
-export const LinkToList = component$<List>(({ id, title }) => {
+export const LinkToJoinedList = component$<List>(({ id, title }) => {
   const isNavigating = useSignal(false);
   const isInfoClicked = useSignal(false);
   const divEl = useSignal<HTMLDivElement>();
@@ -17,7 +17,7 @@ export const LinkToList = component$<List>(({ id, title }) => {
       class="border-1 mx-auto my-2 flex h-12 w-full justify-between rounded-lg bg-slate-100  align-middle shadow-md"
     >
       {isInfoClicked.value ? (
-        <LinkToListInfoBox listId={id} divEl={divEl} />
+        <LinkToJoinedListInfoBox listId={id} divEl={divEl} />
       ) : (
         <Link
           onClick$={() => (isNavigating.value = !isNavigating.value)}

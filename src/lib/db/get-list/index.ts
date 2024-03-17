@@ -10,6 +10,6 @@ export const getList = async (env: EnvGetter, list_id: string) => {
     });
     return res.rows[0] as unknown as List;
   } catch (error) {
-    console.log("logged from the catchblock: /b/ " + error);
+    console.log("logged from the getList catchblock: /b/ " + error);
   }
 };
