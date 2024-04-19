@@ -3,13 +3,13 @@ import { LuCheck, LuLoader2 } from "@qwikest/icons/lucide";
 import { server$ } from "@builder.io/qwik-city";
 import type { List } from "~/lib/definitions";
 import { insertNewList } from "~/lib/turso";
-import { randomUUID } from "crypto";
+import { v4 } from "uuid";
 interface CreateListProps {
   list: List[];
 }
 const tursoInsertNewList = server$(async function (title) {
   title;
-  const newId = randomUUID();
+  const newId = v4();
   const res = await insertNewList(this.env, newId, title);
 
   const value = { id: newId, title: title };
@@ -36,7 +36,7 @@ export const CreateListForm = component$<CreateListProps>(({ list }) => {
   const isLoading = useSignal(false);
   const submitList = $(() => {
     isLoading.value = true;
-    tursoInsertNewList("rllrr")
+    tursoInsertNewList(title.value)
       .then((data) => list.push(data))
       .then(() => {
         title.value = "";

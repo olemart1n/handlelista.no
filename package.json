@@ -53,6 +53,8 @@
     "@libsql/client": "^0.5.2",
     "@qwikest/icons": "^0.0.13",
     "crypto-js": "^4.2.0",
-    "jwt-decode": "^4.0.0"
+    "jwt-decode": "^4.0.0",
+    "uuid": "^9.0.1",
+    "uuidv4": "^6.2.13"
   }
 }
