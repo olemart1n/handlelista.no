@@ -18,7 +18,9 @@ export default component$(() => {
   const lists = useStore(routeData.value);
   return (
     <>
-      <CreateListForm list={lists} />
+      <div class="mx-auto w-10/12 lg:w-1/3">
+        <CreateListForm list={lists} />
+      </div>
       <div class="mx-auto my-3 w-11/12 lg:w-2/3">
         {lists.map((list: List) => (
           <LinkToList key={list.id} id={list.id} title={list.title} />
