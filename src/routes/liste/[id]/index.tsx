@@ -17,7 +17,7 @@ export const useTursoGetList = routeLoader$(async (reqEv) => {
   if (alreadyStored) {
     const parsed = JSON.parse(alreadyStored);
     const exists = parsed.find((obj: List) => obj.id === id);
-    if (!exists) {
+    if (exists) {
       parsed.push({ id, title: exists.title });
       reqEv.cookie.delete("lists", { path: "/" });
       reqEv.cookie.set("lists", JSON.stringify(parsed), {
