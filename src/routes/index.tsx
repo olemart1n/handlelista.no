@@ -1,38 +1,29 @@
-import { component$ } from "@builder.io/qwik";
-import { Link, routeLoader$, useLocation } from "@builder.io/qwik-city";
-import type { DocumentHead } from "@builder.io/qwik-city";
-import { jwtDecode } from "jwt-decode";
-import { LuLoader2 } from "@qwikest/icons/lucide";
-export const useDbCheckJwtExpired = routeLoader$(async (reqEv) => {
-  // THIS ROUTELOADER RUNS ONLY WHEN VISITING "/"
-  const jwtCookie = reqEv.cookie.get("jwt");
-  if (!jwtCookie) {
-    throw reqEv.redirect(303, "/autentisering");
+import { component$, useStore } from "@builder.io/qwik";
+import { routeLoader$, type DocumentHead } from "@builder.io/qwik-city";
+import { CreateListForm, LinkToList } from "~/components";
+import type { List } from "~/lib";
+
+export const useStoredLists = routeLoader$((reqEv) => {
+  const lists = reqEv.cookie.get("lists")
+    ? reqEv.cookie.get("lists")
+    : undefined;
+  if (!lists) {
+    return [] as List[];
   }
-  const decodedToken = jwtDecode(jwtCookie.value);
-  //decodedToken.exp converted to milliseconds
-  if (Date.now() >= decodedToken.exp! * 1000) {
-    // Check if the current time is after the expiration time
-    // Token has expired
-    reqEv.cookie.delete("jwt");
-    throw reqEv.redirect(303, "/autentisering");
-  }
+  return JSON.parse(lists.value) as List[];
 });
 
 export default component$(() => {
-  const loc = useLocation();
+  const routeData = useStoredLists();
+  const lists = useStore(routeData.value);
   return (
     <>
-      {loc.isNavigating ? (
-        <LuLoader2 class="mx-auto my-auto mt-10 h-8 w-8 animate-spin text-white" />
-      ) : (
-        <Link
-          class="relative mx-auto mt-10 flex h-16 w-11/12 place-items-center justify-around rounded-sm border bg-green-100 text-center text-4xl shadow-md drop-shadow-sm"
-          href="/bruker"
-        >
-          Din bruker
-        </Link>
-      )}
+      <CreateListForm list={lists} />
+      <div class="mx-auto my-3 w-11/12 lg:w-2/3">
+        {lists.map((list: List) => (
+          <LinkToList key={list.id} id={list.id} title={list.title} />
+        ))}
+      </div>
     </>
   );
 });

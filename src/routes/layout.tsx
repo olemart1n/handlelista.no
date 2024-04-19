@@ -5,8 +5,8 @@ import {
   useContextProvider,
 } from "@builder.io/qwik";
 import { routeAction$, routeLoader$ } from "@builder.io/qwik-city";
-import { type RequestHandler } from "@builder.io/qwik-city";
-import { Nav } from "~/components";
+import { type RequestHandler, Link } from "@builder.io/qwik-city";
+import { ThemeToggler } from "~/components";
 import { appContext, type App } from "~/context";
 export const onGet: RequestHandler = async ({ cacheControl }) => {
   // Control caching for this request for best performance and to reduce hosting costs:
@@ -56,7 +56,12 @@ export default component$(() => {
           (theme.value === "dark" ? " bg-zinc-400" : "")
         }
       >
-        <Nav />
+        <nav class="text-md flex w-full transform justify-between p-1 py-2 duration-300 dark:bg-slate-800 dark:text-slate-50">
+          <Link href="/">
+            <h1>handlelista.no</h1>
+          </Link>
+          <ThemeToggler />
+        </nav>
       </header>
       <main
         class={
