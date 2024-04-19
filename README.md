@@ -4,6 +4,8 @@
 
 create a database and run `turso dev` & `turso db shell http://127.0.0.1:8080` in the terminal
 
+Create a .env file
+
 ```
 TURSO_DATABASE_URL=http://127.0.0.1:8080
 TURSO_AUTH_TOKEN=
