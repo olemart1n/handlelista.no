@@ -31,3 +31,14 @@ export const selectList = async(env: EnvGetter, list_id: string): Promise <List 
         console.log("selectList error: \n " + error);
       }
 }
+
+
+export const selectAllLists = async(env: EnvGetter) => {
+  try {
+      const client = turso(env);
+      const res = await client.execute("SELECT * FROM lists");
+      return res.rows as unknown as List[]
+    } catch (error) {
+      console.log("selectList error: \n " + error);
+    }
+}

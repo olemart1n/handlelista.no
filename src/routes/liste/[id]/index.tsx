@@ -13,11 +13,15 @@ export const useTursoGetList = routeLoader$(async (reqEv) => {
   const res = await selectList(reqEv.env, reqEv.params.id);
 
   const id = reqEv.params["id"];
-  const alreadyStored = reqEv.cookie.get("lists")?.value;
-  if (alreadyStored) {
-    const parsed = JSON.parse(alreadyStored);
+  if (!reqEv.cookie.get("lists")?.value) {
+    reqEv.cookie.set("lists", JSON.stringify([{ id, title: res?.title }]), {
+      path: "/",
+      expires: new Date("9999-12-31T23:59:59"),
+    });
+  } else {
+    const parsed = JSON.parse(reqEv.cookie.get("lists")!.value);
     const exists = parsed.find((obj: List) => obj.id === id);
-    if (exists) {
+    if (!exists) {
       parsed.push({ id, title: exists.title });
       reqEv.cookie.delete("lists", { path: "/" });
       reqEv.cookie.set("lists", JSON.stringify(parsed), {
@@ -25,11 +29,6 @@ export const useTursoGetList = routeLoader$(async (reqEv) => {
         expires: new Date("9999-12-31T23:59:59"),
       });
     }
-  } else {
-    reqEv.cookie.set("lists", JSON.stringify([{ id, title: res?.title }]), {
-      path: "/",
-      expires: new Date("9999-12-31T23:59:59"),
-    });
   }
 
   if (res) {
