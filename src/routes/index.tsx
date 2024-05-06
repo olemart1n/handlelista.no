@@ -43,11 +43,16 @@ export const head: DocumentHead = {
     },
     {
       name: "keywords",
-      content: "handleliste, liste, handle, oversikt",
+      content:
+        "handleliste, liste, handle, oversikt, handleliste app, handle app, handle norge, norsk",
     },
     {
       name: "author",
       content: "Ole Martin Snoen",
+    },
+    {
+      name: "robots",
+      content: "index, nofollow",
     },
     {
       name: "viewport",
@@ -56,3 +61,5 @@ export const head: DocumentHead = {
     },
   ],
 };
+
+<meta name="robots" content="index, nofollow"></meta>;
