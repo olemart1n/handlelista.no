@@ -38,7 +38,7 @@ export const AddItemForm = component$<ListInputProps>(({ list }) => {
         maxLength={20}
         id="item"
         class={
-          "absolute z-10 m-auto h-full w-full border-gray-700 bg-transparent ps-3 text-center text-2xl "
+          "absolute z-10 m-auto h-full w-full  bg-transparent ps-3 text-center text-2xl "
         }
       ></input>
       <button

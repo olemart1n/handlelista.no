@@ -18,7 +18,7 @@ export default component$(() => {
   const lists = useStore(routeData.value);
   return (
     <>
-      <div class="mx-auto w-10/12 lg:w-1/3">
+      <div class="mx-auto w-10/12  lg:w-1/3">
         <CreateListForm list={lists} />
       </div>
       <div class="mx-auto my-3 w-11/12 lg:w-2/3">

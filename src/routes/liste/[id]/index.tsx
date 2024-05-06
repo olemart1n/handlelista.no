@@ -12,18 +12,20 @@ export const useTursoGetListItems = routeLoader$(async (reqEv) => {
 export const useTursoGetList = routeLoader$(async (reqEv) => {
   const res = await selectList(reqEv.env, reqEv.params.id);
   const id = reqEv.params["id"];
+  const cookieList = reqEv.cookie.get("lists")?.value;
   if (!res?.title) {
-    return null;
+    reqEv.redirect(307, "/oups");
+    return;
   }
   if (!reqEv.cookie.get("lists")) {
-    reqEv.cookie.set("lists", JSON.stringify([{ id, title: res?.title }]), {
+    reqEv.cookie.set("lists", JSON.stringify([{ id, title: res.title }]), {
       path: "/",
       expires: new Date("9999-12-31T23:59:59"),
     });
     return res as List | null;
   }
 
-  const parsed = JSON.parse(reqEv.cookie.get("lists")!.value);
+  const parsed = JSON.parse(cookieList!);
   const exists = parsed.find((obj: List) => obj.id === id);
 
   if (!exists) {
@@ -44,7 +46,7 @@ export default component$(() => {
   return (
     <>
       <div class="mx-auto my-1 flex w-11/12 justify-between">
-        <h2 class="barlow my-auto dark:text-slate-50">{list.value?.title}</h2>
+        <h2 class="barlow m-auto dark:text-slate-50">{list.value?.title}</h2>
       </div>
 
       <div class="relative mx-auto h-16 w-11/12 rounded-sm border shadow-md drop-shadow-sm dark:bg-slate-200 lg:w-1/2">

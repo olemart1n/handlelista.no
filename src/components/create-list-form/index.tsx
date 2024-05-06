@@ -44,14 +44,18 @@ export const CreateListForm = component$<CreateListProps>(({ list }) => {
       });
   });
   return (
-    <form class="my-2 flex h-10" preventdefault:submit onsubmit$={submitList}>
+    <form
+      class=" my-2 flex h-full w-full"
+      preventdefault:submit
+      onsubmit$={submitList}
+    >
       <input
         bind:value={title}
         type="text"
         name="title"
         id="title"
-        placeholder="tittel"
-        class="w-full rounded border-2 border-slate-600 text-center text-xl"
+        placeholder="Navn på liste"
+        class="w-full rounded-sm border text-center text-xl shadow-sm drop-shadow-sm dark:bg-slate-200 "
       />
 
       <button

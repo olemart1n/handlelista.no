@@ -57,7 +57,10 @@ export default component$(() => {
         }
       >
         <nav class="text-md flex w-full transform justify-between p-1 py-2 duration-300 dark:bg-slate-800 dark:text-slate-50">
-          <Link href="/">
+          <Link
+            href="/"
+            class="rounded bg-sky-200 p-0.5 shadow-sm outline-1  outline-slate-600 transition duration-300 dark:bg-sky-600"
+          >
             <h1>handlelista.no</h1>
           </Link>
           <ThemeToggler />
