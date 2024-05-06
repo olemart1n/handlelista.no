@@ -35,8 +35,19 @@ export const head: DocumentHead = {
   meta: [
     {
       name: "description",
-      content:
-        "handlelista.no er ett nettsted der man kan lage sette opp handlelister",
+      content: "Bruk handlelista.no for å ha oversikt over det du handler",
+    },
+    {
+      name: "title",
+      content: "handlelista.no",
+    },
+    {
+      name: "keywords",
+      content: "handleliste, liste, handle, oversikt",
+    },
+    {
+      name: "author",
+      content: "Ole Martin Snoen",
     },
     {
       name: "viewport",
