@@ -4,39 +4,42 @@ import { routeLoader$ } from "@builder.io/qwik-city";
 import { selectListItems, selectList } from "~/lib/turso/select";
 import type { ListItem, List } from "~/lib";
 
-export const useTursoGetListItems = routeLoader$(async (reqEv) => {
-  const res = await selectListItems(reqEv.env, reqEv.params.id);
-  return res as ListItem[];
-});
+export const useTursoGetList = routeLoader$(
+  async ({ params, redirect, env, cookie }) => {
+    const res = await selectList(env, params.id);
+    const id = params["id"];
+    const cookieList = cookie.get("lists")?.value;
 
-export const useTursoGetList = routeLoader$(async (reqEv) => {
-  const res = await selectList(reqEv.env, reqEv.params.id);
-  const id = reqEv.params["id"];
-  const cookieList = reqEv.cookie.get("lists")?.value;
-  if (!res?.title) {
-    reqEv.redirect(307, "/oups");
-    return;
-  }
-  if (!reqEv.cookie.get("lists")) {
-    reqEv.cookie.set("lists", JSON.stringify([{ id, title: res.title }]), {
-      path: "/",
-      expires: new Date("9999-12-31T23:59:59"),
-    });
+    if (!res?.title) {
+      throw redirect(307, "/oups/" + id);
+    }
+
+    if (!cookie.get("lists")) {
+      cookie.set("lists", JSON.stringify([{ id, title: res.title }]), {
+        path: "/",
+        expires: new Date("9999-12-31T23:59:59"),
+      });
+      return res as List | null;
+    }
+
+    const parsed = JSON.parse(cookieList!);
+    const exists = parsed.find((obj: List) => obj.id === id);
+
+    if (!exists) {
+      parsed.push({ id, title: res.title });
+      cookie.delete("lists", { path: "/" });
+      cookie.set("lists", JSON.stringify(parsed), {
+        path: "/",
+        expires: new Date("9999-12-31T23:59:59"),
+      });
+    }
     return res as List | null;
-  }
+  },
+);
 
-  const parsed = JSON.parse(cookieList!);
-  const exists = parsed.find((obj: List) => obj.id === id);
-
-  if (!exists) {
-    parsed.push({ id, title: res.title });
-    reqEv.cookie.delete("lists", { path: "/" });
-    reqEv.cookie.set("lists", JSON.stringify(parsed), {
-      path: "/",
-      expires: new Date("9999-12-31T23:59:59"),
-    });
-  }
-  return res as List | null;
+export const useTursoGetListItems = routeLoader$(async ({ params, env }) => {
+  const res = await selectListItems(env, params.id);
+  return res as ListItem[];
 });
 
 export default component$(() => {
