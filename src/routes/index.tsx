@@ -39,7 +39,7 @@ export const head: DocumentHead = {
     },
     {
       name: "title",
-      content: "handlelista.no",
+      content: "handlelista",
     },
     {
       name: "keywords",
@@ -61,5 +61,3 @@ export const head: DocumentHead = {
     },
   ],
 };
-
-<meta name="robots" content="index, nofollow"></meta>;
