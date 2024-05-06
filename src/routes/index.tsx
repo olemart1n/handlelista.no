@@ -35,7 +35,8 @@ export const head: DocumentHead = {
   meta: [
     {
       name: "description",
-      content: "Bruk handlelista.no for å ha oversikt over det du handler",
+      content:
+        "Bruk handlelista.no for å ha oversikt over det du handler. Legg til varer og merk av varer som er handlet for å ha oversikt.",
     },
     {
       name: "title",
@@ -52,7 +53,7 @@ export const head: DocumentHead = {
     },
     {
       name: "robots",
-      content: "index, nofollow",
+      content: "index",
     },
     {
       name: "viewport",
