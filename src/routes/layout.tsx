@@ -6,7 +6,7 @@ import {
 } from "@builder.io/qwik";
 import { routeAction$, routeLoader$ } from "@builder.io/qwik-city";
 import { type RequestHandler, Link } from "@builder.io/qwik-city";
-import { ThemeToggler } from "~/components";
+import { ThemeToggler, PopUpCookie } from "~/components";
 import { appContext, type App } from "~/context";
 export const onGet: RequestHandler = async ({ cacheControl }) => {
   // Control caching for this request for best performance and to reduce hosting costs:
@@ -34,6 +34,18 @@ export const useSetTheme = routeAction$((_, requestEv) => {
   }
 });
 
+export const useGetIsVisited = routeLoader$((requestEv) => {
+  if (requestEv.cookie.get("isVisited")?.value === "true") {
+    return { isVisited: true };
+  } else {
+    requestEv.cookie.set("isVisited", "true", {
+      expires: "999999999",
+      path: "/",
+    });
+    return { isVisited: false };
+  }
+});
+
 export const useServerTimeLoader = routeLoader$(() => {
   return {
     date: new Date().toISOString(),
@@ -42,6 +54,7 @@ export const useServerTimeLoader = routeLoader$(() => {
 
 export default component$(() => {
   const theme = useGetTheme();
+  const isVisited = useGetIsVisited();
   const appState: App = useStore({
     theme: theme.value,
   });
@@ -74,6 +87,7 @@ export default component$(() => {
         }
       >
         <Slot />
+        {!isVisited.value.isVisited && <PopUpCookie />}
       </main>
     </>
   );
