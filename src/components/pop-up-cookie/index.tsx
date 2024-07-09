@@ -11,7 +11,7 @@ export const PopUpCookie = component$(() => {
     <div
       ref={el}
       class={
-        "fixed top-3/4 h-20 w-full transition duration-500" +
+        "fixed left-1/2 top-3/4 m-auto h-20 w-full max-w-md -translate-x-1/2 transition duration-500" +
         (classAdded.value
           ? " translate-y-0 opacity-100 "
           : " translate-y-20 opacity-0")
