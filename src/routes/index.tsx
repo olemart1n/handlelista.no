@@ -1,6 +1,6 @@
 import { component$, useStore } from "@builder.io/qwik";
 import { routeLoader$, type DocumentHead } from "@builder.io/qwik-city";
-import { CreateListForm, LinkToList } from "~/components";
+import { CreateListForm, LinkToList, AiChat } from "~/components";
 import type { List } from "~/lib";
 
 export const useStoredLists = routeLoader$((reqEv) => {
@@ -25,6 +25,9 @@ export default component$(() => {
         {lists.map((list: List) => (
           <LinkToList key={list.id} id={list.id} title={list.title} />
         ))}
+      </div>
+      <div class=" min-h-32 border-2  shadow-md">
+        <AiChat />
       </div>
     </>
   );
