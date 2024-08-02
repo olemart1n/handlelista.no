@@ -4,13 +4,12 @@ export const prompt1 = async(env: RequestEventCommon["env"]) => {
     if(!api) {
         throw new Error("PRIVATE_API is not defined")
     }
+    const res = await fetch(api + "/api/prompt1")
+    if(res.status > 299) {
 
-    try {
-        const res = await fetch(api + "/api/prompt1")
-        return {data: res, error: null}
-    } catch (error) {
-        console.log(error)
-        return {data: null, error: "some error occured in prompt1 function"}
+        return {data: null, error: {message: await res.json(), code: res.status}}
     }
+    return {data: res, error: null}
+
 }
 

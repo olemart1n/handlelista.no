@@ -7,15 +7,15 @@ import { AiResponse } from "./ai-response";
 const askAi = server$(async function () {
   const { data, error } = await prompt1(this.env);
   if (error) {
-    return { dinner: "error", ingredients: ["error"] };
+    return { response: null, error: error };
   }
   const json = await data?.json();
-  // console.log(JSON.parse(json));
   const response = JSON.parse(json);
-  return {
+  const r = {
     dinner: response.middag,
     ingredients: response.ingredienser,
   } as Prompt1;
+  return { response: r, error: null };
 });
 
 interface AiChatProps {
@@ -24,6 +24,8 @@ interface AiChatProps {
 
 export const AiChat = component$<AiChatProps>(({ list }) => {
   const isLoading = useSignal(false);
+  const isError = useSignal(false);
+  const errorMessage = useSignal("");
   const mealSignal = useStore<Prompt1>({
     dinner: "",
     ingredients: [],
@@ -54,9 +56,14 @@ export const AiChat = component$<AiChatProps>(({ list }) => {
             onClick$={() => {
               isLoading.value = true;
               askAi().then((data) => {
-                mealSignal.ingredients = data.ingredients;
-                mealSignal.dinner = data.dinner;
-                isLoading.value = false;
+                if (data.response) {
+                  mealSignal.ingredients = data.response.ingredients;
+                  mealSignal.dinner = data.response.dinner;
+                  isLoading.value = false;
+                } else {
+                  errorMessage.value = data.error.message + data.error.code;
+                  isError.value = true;
+                }
               });
             }}
           >
@@ -70,7 +77,9 @@ export const AiChat = component$<AiChatProps>(({ list }) => {
           }
         />
       </div>
-
+      {isError.value && (
+        <p class="w-full bg-red-300 p-3 text-center">{errorMessage.value}</p>
+      )}
       {mealSignal.ingredients.length > 0 && (
         <AiResponse list={list} store={mealSignal} />
       )}
