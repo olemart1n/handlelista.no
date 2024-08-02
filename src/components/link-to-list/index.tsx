@@ -32,7 +32,7 @@ export const LinkToList = component$<List>(({ id, title }) => {
     <div
       ref={divEl}
       key={id}
-      class="border-1 mx-auto my-2 flex h-12 w-full justify-between rounded-sm bg-sky-100  align-middle shadow-md"
+      class="border-1 min-h-12 mx-auto my-2 flex w-full justify-between rounded-sm bg-sky-100  align-middle shadow-md"
     >
       <button
         class="mx-2 flex text-gray-700"

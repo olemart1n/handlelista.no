@@ -40,3 +40,26 @@ export const insertNewItem = async (
         console.log(error)
     }    
 }
+
+export const insertManyItems = async (
+  env: EnvGetter,
+  list_id: string,
+  items: string[]
+): Promise<void> => {
+  
+    const client = turso(env);
+    const t = await client.transaction()
+    try {
+      items.forEach(async (itemTitle) => {
+        await t.execute({
+        sql: 'INSERT INTO items (name, list_id) VALUES (?, ?) RETURNING *',
+        args: [itemTitle, list_id]
+        })
+      })
+
+    } catch (error) {
+      console.log(error)
+    } finally {
+      await t.commit()
+    }
+}

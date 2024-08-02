@@ -1,5 +1,34 @@
-import { component$ } from "@builder.io/qwik";
-export const AiChat = component$(() => {
+import { component$, useSignal, useStore } from "@builder.io/qwik";
+import { server$ } from "@builder.io/qwik-city";
+
+import { type Prompt1, type List, prompt1 } from "~/lib";
+import { LuLoader2 } from "@qwikest/icons/lucide";
+import { AiResponse } from "./ai-response";
+const askAi = server$(async function () {
+  const { data, error } = await prompt1(this.env);
+  if (error) {
+    return { dinner: "error", ingredients: ["error"] };
+  }
+  const json = await data?.json();
+  // console.log(JSON.parse(json));
+  const response = JSON.parse(json);
+  return {
+    dinner: response.middag,
+    ingredients: response.ingredienser,
+  } as Prompt1;
+});
+
+interface AiChatProps {
+  list: List[];
+}
+
+export const AiChat = component$<AiChatProps>(({ list }) => {
+  const isLoading = useSignal(false);
+  const mealSignal = useStore<Prompt1>({
+    dinner: "",
+    ingredients: [],
+  });
+
   return (
     <>
       <div class="flex place-content-center">
@@ -19,18 +48,32 @@ export const AiChat = component$(() => {
         </p>
       </div>
       <div>
-        <div class="my-2 text-center">
+        <div class="my-2 mb-0 text-center">
           <button
             class="my-1 h-fit w-3/4 rounded-md bg-blue-300 p-1"
-            // onClick$={() => test.submit()}
+            onClick$={() => {
+              isLoading.value = true;
+              askAi().then((data) => {
+                mealSignal.ingredients = data.ingredients;
+                mealSignal.dinner = data.dinner;
+                isLoading.value = false;
+              });
+            }}
           >
             Forslag til middag
           </button>
-          <button class="my-1 h-fit w-3/4 rounded-md  bg-blue-300 p-1 ">
-            Pålegg
-          </button>
         </div>
+        <LuLoader2
+          class={
+            "mx-auto my-auto block h-8 w-8 animate-spin text-gray-600 " +
+            (isLoading.value ? "visible" : "invisible")
+          }
+        />
       </div>
+
+      {mealSignal.ingredients.length > 0 && (
+        <AiResponse list={list} store={mealSignal} />
+      )}
     </>
   );
 });

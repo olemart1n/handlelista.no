@@ -27,7 +27,7 @@ export default component$(() => {
         ))}
       </div>
       <div class=" min-h-32 border-2  shadow-md">
-        <AiChat />
+        <AiChat list={lists} />
       </div>
     </>
   );

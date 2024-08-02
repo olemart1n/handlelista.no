@@ -1,8 +1,9 @@
 import { component$, useSignal, $ } from "@builder.io/qwik";
 import { LuCheck, LuLoader2 } from "@qwikest/icons/lucide";
-import { server$ } from "@builder.io/qwik-city";
+import { type Cookie, server$ } from "@builder.io/qwik-city";
 import type { List } from "~/lib/definitions";
 import { insertNewList } from "~/lib/turso";
+import { addListToCookies } from "~/lib";
 import { v4 } from "uuid";
 interface CreateListProps {
   list: List[];
@@ -13,21 +14,7 @@ const tursoInsertNewList = server$(async function (title) {
   const res = await insertNewList(this.env, newId, title);
 
   const value = { id: newId, title: title };
-  const alreadyStored = this.cookie.get("lists")?.value;
-  if (alreadyStored) {
-    this.cookie.delete("lists", { path: "/" });
-    const parsed = JSON.parse(alreadyStored);
-    parsed.push(value);
-    this.cookie.set("lists", JSON.stringify(parsed), {
-      path: "/",
-      expires: new Date("9999-12-31T23:59:59"),
-    });
-  } else {
-    this.cookie.set("lists", JSON.stringify([value]), {
-      path: "/",
-      expires: new Date("9999-12-31T23:59:59"),
-    });
-  }
+  addListToCookies(this.cookie as Cookie, value);
   return res as List;
 });
 

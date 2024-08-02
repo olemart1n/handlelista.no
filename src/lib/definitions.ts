@@ -12,4 +12,8 @@ purchased: boolean;
 extra_info: string;
 list_id: number;
 }
-    
+
+export interface Prompt1 {
+    dinner: string;
+    ingredients: string[];
+}
