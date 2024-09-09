@@ -4,9 +4,9 @@ export const prompt1 = async(env: RequestEventCommon["env"]) => {
     if(!api) {
         throw new Error("PRIVATE_API is not defined")
     }
-    const res = await fetch(api + "/api/prompt1")
+    const res = await fetch(api + "/robokokk/prompt1")
     if(res.status > 299) {
-
+        console.log( await res.json())
         return {data: null, error: {message: await res.json(), code: res.status}}
     }
     return {data: res, error: null}

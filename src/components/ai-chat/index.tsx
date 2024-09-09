@@ -4,6 +4,7 @@ import { server$ } from "@builder.io/qwik-city";
 import { type Prompt1, type List, prompt1 } from "~/lib";
 import { LuLoader2 } from "@qwikest/icons/lucide";
 import { AiResponse } from "./ai-response";
+
 const askAi = server$(async function () {
   const { data, error } = await prompt1(this.env);
   if (error) {
@@ -61,7 +62,7 @@ export const AiChat = component$<AiChatProps>(({ list }) => {
                   mealSignal.dinner = data.response.dinner;
                   isLoading.value = false;
                 } else {
-                  errorMessage.value = data.error.message + data.error.code;
+                  errorMessage.value = JSON.stringify(data.error.message);
                   isError.value = true;
                 }
               });
