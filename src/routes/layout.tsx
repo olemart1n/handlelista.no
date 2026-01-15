@@ -34,17 +34,6 @@ export const useSetTheme = routeAction$((_, requestEv) => {
   }
 });
 
-export const useGetIsVisited = routeLoader$((requestEv) => {
-  if (requestEv.cookie.get("isVisited")?.value === "true") {
-    return { isVisited: true };
-  } else {
-    requestEv.cookie.set("isVisited", "true", {
-      expires: "999999999",
-      path: "/",
-    });
-    return { isVisited: false };
-  }
-});
 
 export const useServerTimeLoader = routeLoader$(() => {
   return {
@@ -54,7 +43,6 @@ export const useServerTimeLoader = routeLoader$(() => {
 
 export default component$(() => {
   const theme = useGetTheme();
-  const isVisited = useGetIsVisited();
   const appState: App = useStore({
     theme: theme.value,
   });
@@ -87,7 +75,6 @@ export default component$(() => {
         }
       >
         <Slot />
-        {!isVisited.value.isVisited && <PopUpCookie />}
       </main>
     </>
   );
