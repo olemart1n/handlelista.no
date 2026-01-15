@@ -1,0 +1,43 @@
+header {
+    transition: all 0.3s ease;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.25rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.dark header {
+    background-color: rgb(156 163 175);
+}
+
+.dark nav {
+    background-color: rgb(30 41 59);
+    color: rgb(203 213 225);
+}
+
+a[href="/"] {
+    border-radius: 0.25rem;
+    background-color: rgb(186 230 253);
+    padding: 0.125rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    outline: 1px solid rgb(71 85 105);
+    transition: all 0.3s ease;
+}
+
+.dark a[href="/"] {
+    background-color: rgb(3 105 161);
+}
+
+main {
+    transition: all 0.3s ease;
+}
+
+.dark main {
+    background-color: rgb(30 41 59);
+}
