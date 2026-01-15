@@ -8,7 +8,6 @@ import { routeAction$, routeLoader$ } from '@builder.io/qwik-city'
 import { type RequestHandler, Link } from '@builder.io/qwik-city'
 import { ThemeToggler } from '~/components'
 import { appContext, type App } from '~/context'
-import '~/routes/styles.css'
 export const onGet: RequestHandler = async ({ cacheControl }) => {
     // Control caching for this request for best performance and to reduce hosting costs:
     // https://qwik.builder.io/docs/caching/
@@ -50,15 +49,30 @@ export default component$(() => {
 
     return (
         <>
-            <header class={theme.value}>
-                <nav>
-                    <Link href="/">
+            <header
+                class={
+                    theme.value +
+                    ' transition duration-300' +
+                    (theme.value === 'dark' ? ' bg-zinc-400' : '')
+                }
+            >
+                <nav class="text-md flex w-full transform justify-between p-1 py-2 duration-300 dark:bg-slate-800 dark:text-slate-50">
+                    <Link
+                        href="/"
+                        class="rounded bg-sky-200 p-0.5 shadow-sm outline-1  outline-slate-600 transition duration-300 dark:bg-sky-600"
+                    >
                         <h1>handlelista.no</h1>
                     </Link>
                     <ThemeToggler />
                 </nav>
             </header>
-            <main class={theme.value}>
+            <main
+                class={
+                    theme.value +
+                    ' transition duration-300' +
+                    (theme.value === 'dark' ? ' bg-slate-800' : '')
+                }
+            >
                 <Slot />
             </main>
         </>
