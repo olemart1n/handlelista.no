@@ -2,13 +2,15 @@
 
 [Handlelista](https://handlelista.no)
 
-create a database and run `turso dev` & `turso db shell http://127.0.0.1:8080` in the terminal
+
+```brew install tursodatabase/tap/turso```
+create a database file eg: ```dev.db``` and run ```turso dev --db-file dev.db``` and then interact with it in a new terminal tab ```turso db shell http://127.0.0.1:8080```
 
 Create a .env file
 
 ```
-TURSO_DATABASE_URL=http://127.0.0.1:8080
-TURSO_AUTH_TOKEN=
+PRIVATE_TURSO_DB_URL=http://127.0.0.1:8080
+PRIVATE_TURSO_DB_AUTH_TOKEN=
 ```
 
 ```sql
@@ -31,3 +33,4 @@ CREATE TABLE lists (
 
 `npm install`
 `npm run dev`
+

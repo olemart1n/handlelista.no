@@ -1,0 +1,85 @@
+/* CSS styles for the link to list component */
+
+.link-to-list {
+    border: 1px solid;
+    min-height: 3rem;
+    margin: 0 auto;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    border-radius: 0.125rem;
+    background-color: #e0f2fe;
+    align-items: center;
+    color: black;
+    box-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.link-to-list .trash-button {
+    margin: 0.5rem;
+    display: flex;
+    color: #374151;
+}
+
+.trash-icon {
+    margin: auto;
+}
+
+.link-to-list .loader {
+    margin: auto;
+    height: 2rem;
+    width: 2rem;
+    animation: spin 1s linear infinite;
+}
+
+.spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.copied-container {
+    position: relative;
+    display: flex;
+    height: 100%;
+}
+
+.copied-icon {
+    margin: auto;
+    font-size: 1.125rem;
+}
+
+.check-icon {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+    border-radius: 9999px;
+    background-color: #dcfce7;
+    opacity: 0.9;
+}
+
+.share-button {
+    position: relative;
+    display: flex;
+    place-content: center;
+    color: #374151;
+}
+
+.share-icon {
+    margin: auto 0;
+    font-size: 1.125rem;
+}
+
+.invisible {
+    display: none;
+}
