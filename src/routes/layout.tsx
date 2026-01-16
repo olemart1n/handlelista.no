@@ -26,6 +26,7 @@ export default component$(() => {
                     <Link href="/">
                         <h1>handlelista.no</h1>
                     </Link>
+                    <button>Forslag til middag</button>
                 </nav>
             </header>
 

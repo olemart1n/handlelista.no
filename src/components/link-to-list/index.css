@@ -9,7 +9,7 @@
     width: 100%;
     justify-content: space-between;
     border-radius: 0.125rem;
-    background-color: #e0f2fe;
+    background-color: #e0f2fe !important;
     align-items: center;
     color: black;
     box-shadow:
