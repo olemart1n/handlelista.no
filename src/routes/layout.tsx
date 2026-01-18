@@ -1,6 +1,7 @@
 import { Slot, component$ } from '@builder.io/qwik'
 import { routeLoader$ } from '@builder.io/qwik-city'
 import { type RequestHandler, Link } from '@builder.io/qwik-city'
+import { DinnerSuggestion } from '~/components'
 
 export const onGet: RequestHandler = async ({ cacheControl }) => {
     // Control caching for this request for best performance and to reduce hosting costs:
@@ -26,7 +27,7 @@ export default component$(() => {
                     <Link href="/">
                         <h1>handlelista.no</h1>
                     </Link>
-                    <button>Forslag til middag</button>
+                    <DinnerSuggestion />
                 </nav>
             </header>
 

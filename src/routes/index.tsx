@@ -29,12 +29,6 @@ export default component$(() => {
                 ))}
             </div>
         </main>
-        //     <>
-
-        //         {/* <div class="chat-container">
-        //     <AiChat list={lists} />
-        //   </div> */}
-        //     </>
     )
 })
 

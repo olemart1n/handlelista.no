@@ -29,8 +29,30 @@ CREATE TABLE lists (
 	title TEXT NOT NULL,
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE dinner_suggestions (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  ingredients TEXT NOT NULL, -- JSON-string, f.eks. '[{"name": "laks", "unit": "kg", "amount": 0.4}, {"name": "poteter", "unit": "kg", "amount": 0.8}]'
+  portions INTEGER DEFAULT 4, -- Standardverdi: 4 porsjoner
+  preparation TEXT NOT NULL
+);
+
+
+CREATE TABLE dinner_suggestions (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  ingredients_json TEXT NOT NULL,
+  base_portions INTEGER NOT NULL DEFAULT 4,
+  preparation TEXT NOT NULL
+);
 ```
 
 `npm install`
 `npm run dev`
 
+Gjøremål
+1. Finn ut hvorfor noe av styling ikke virker å production.
+2. Lag en liste med middagsretter å lagre i databasen. Start med 20 forskelige retter.
+3. Integrer middagsforslag i nettsiden.
+4. Webworker

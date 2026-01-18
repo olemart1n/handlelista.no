@@ -13,8 +13,15 @@
     box-shadow:
         0 2px 4px 3px rgba(0, 0, 0, 0.1),
         0 10px 20px -2px rgba(0, 0, 0, 0.1);
-    background-color: light-dark(transparent, #e2e8f0) !important;
-    color: rgb(40, 39, 39);
+    background-color: light-dark(
+        var(--list-item-color-lightscheme),
+        var(--list-item-color-darkscheme)
+    );
+    align-items: center;
+    color: light-dark(
+        var(--text-color-lightscheme),
+        var(--text-color-darkscheme)
+    );
 }
 
 .item-content {
@@ -31,7 +38,7 @@
     height: 1.5rem;
     width: 1.5rem;
     border-radius: 0.125rem;
-    color: #4b5563;
+
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
@@ -45,8 +52,8 @@
 .item-name {
     position: relative;
     font-size: 1.5rem;
+    font-weight: 100;
     line-height: 1.2;
-    color: black;
 }
 
 @media (min-width: 1024px) {

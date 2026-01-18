@@ -5,7 +5,9 @@
         "node": ">=15.0.0"
     },
     "private": true,
-    "trustedDependencies": ["sharp"],
+    "trustedDependencies": [
+        "sharp"
+    ],
     "type": "module",
     "scripts": {
         "build": "qwik build",
@@ -28,6 +30,7 @@
         "@builder.io/qwik-city": "^1.18.0",
         "@modular-forms/qwik": "^0.29.1",
         "@netlify/edge-functions": "^3.0.3",
+        "@qwik-ui/headless": "^0.7.4",
         "@qwikest/icons": "^0.0.13",
         "@types/crypto-js": "^4.2.2",
         "@types/eslint": "^8.56.2",

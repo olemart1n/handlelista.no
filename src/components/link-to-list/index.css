@@ -9,9 +9,15 @@
     width: 100%;
     justify-content: space-between;
     border-radius: 0.125rem;
-    background-color: #e0f2fe !important;
+    background-color: light-dark(
+        var(--list-item-color-lightscheme),
+        var(--list-item-color-darkscheme)
+    );
     align-items: center;
-    color: black;
+    color: light-dark(
+        var(--text-color-lightscheme),
+        var(--text-color-darkscheme)
+    );
     box-shadow:
         0 4px 6px -1px rgba(0, 0, 0, 0.1),
         0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -20,7 +26,6 @@
 .link-to-list .trash-button {
     margin: 0.5rem;
     display: flex;
-    color: #374151;
 }
 
 .trash-icon {
@@ -71,7 +76,6 @@
     position: relative;
     display: flex;
     place-content: center;
-    color: #374151;
 }
 
 .share-icon {
