@@ -23,12 +23,14 @@ form input[type="text"] {
 form button {
     aspect-ratio: 1;
     border-radius: 0.25rem;
-    background-color: #dcfce7;
+    background-color: light-dark(
+        var(--homelink-color-lightscheme),
+        var(--homelink-color-darkscheme)
+    );
 }
 
-form .button-active {
-    background-color: rgb(134 239 172);
-    cursor: pointer;
+form .button-active .icon {
+    transform: scale(110%);
 }
 
 .icon {

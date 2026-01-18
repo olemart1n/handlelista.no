@@ -48,6 +48,7 @@ export const CreateListForm = component$<CreateListProps>(({ list }) => {
                 name="title"
                 id="title"
                 placeholder="Navn på liste"
+                minLength={3}
             />
 
             <button

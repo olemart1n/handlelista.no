@@ -83,8 +83,7 @@ export const LinkToList = component$<List>(({ id, title }) => {
                 href={`/liste/${id}`}
                 style={{ flex: 1, padding: 6 }}
             >
-                {/* {title} */}
-                hello there
+                {title}
             </Link>
 
             <LuLoader2

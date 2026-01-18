@@ -32,7 +32,10 @@ form input[type="text"] {
     height: 3.5rem;
     width: 3.5rem;
     border-radius: 0.25rem;
-    background-color: #dcfce7;
+    background-color: light-dark(
+        var(--homelink-color-lightscheme),
+        var(--homelink-color-darkscheme)
+    );
     cursor: pointer;
     z-index: 1;
 }

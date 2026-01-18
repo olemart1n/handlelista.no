@@ -1,65 +1,65 @@
-import { type EnvGetter } from "@builder.io/qwik-city/middleware/request-handler";
-import { turso } from "./turso-client";
-import type { List, ListItem } from "~/lib";
+import { type EnvGetter } from '@builder.io/qwik-city/middleware/request-handler'
+import { turso } from './turso-client'
+import type { List, ListItem } from '~/lib'
+import type { Ingredients } from '~/lib'
 export const insertNewList = async (
-  env: EnvGetter,
-  id: string,
-  title: string,
+    env: EnvGetter,
+    id: string,
+    title: string,
 ): Promise<List | undefined> => {
-  try {
-    const client = turso(env);
-    const newList = await client.execute({
-        sql: "INSERT INTO lists (id,title) VALUES (?,?) RETURNING *",
-        args: [id, title],  
-    })
-    if(newList.rows.length > 0) {
-        return newList.rows[0] as unknown as List
+    try {
+        const client = turso(env)
+        const newList = await client.execute({
+            sql: 'INSERT INTO lists (id,title) VALUES (?,?) RETURNING *',
+            args: [id, title],
+        })
+        if (newList.rows.length > 0) {
+            return newList.rows[0] as unknown as List
+        }
+    } catch (error) {
+        console.log('logged from the insertList: \n ' + error)
     }
-  } catch (error) {
-    console.log("logged from the insertList: \n " + error);
-  }
-
-};
-
+}
 
 export const insertNewItem = async (
     env: EnvGetter,
     list_id: string,
-    name: string
+    name: string,
 ): Promise<ListItem | undefined> => {
     try {
-        const client = turso(env);
+        const client = turso(env)
         const res = await client.execute({
             sql: 'INSERT INTO items (name, list_id) VALUES (?, ?) RETURNING *',
-            args: [name, list_id]
-        });
+            args: [name, list_id],
+        })
         if (res.rows.length > 0) {
             return res.rows[0] as unknown as ListItem
         }
     } catch (error) {
         console.log(error)
-    }    
+    }
 }
 
 export const insertManyItems = async (
-  env: EnvGetter,
-  list_id: string,
-  items: string[]
-): Promise<void> => {
-  
-    const client = turso(env);
+    env: EnvGetter,
+    list_id: string,
+    items: Ingredients[],
+): Promise<boolean> => {
+    const client = turso(env)
     const t = await client.transaction()
-    try {
-      items.forEach(async (itemTitle) => {
-        await t.execute({
-        sql: 'INSERT INTO items (name, list_id) VALUES (?, ?) RETURNING *',
-        args: [itemTitle, list_id]
-        })
-      })
 
+    try {
+        items.forEach(async (item) => {
+            await t.execute({
+                sql: 'INSERT INTO items (name, list_id, extra_info) VALUES (?, ?, ?) RETURNING *',
+                args: [item.name, list_id, item.amount + ' ' + item.unit],
+            })
+        })
+
+        await t.commit()
+        return true
     } catch (error) {
-      console.log(error)
-    } finally {
-      await t.commit()
+        console.log(error)
+        return false
     }
 }

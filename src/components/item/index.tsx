@@ -41,6 +41,7 @@ export const Item = component$<ItemProps>(({ props }) => {
                 </button>
                 <div class="item-name-container">
                     <h5 class="item-name">{props.name}</h5>
+                    {props.extra_info && <span>{props.extra_info}</span>}
                 </div>
                 {props.purchased ? (
                     <button class="purchased-button" disabled>
