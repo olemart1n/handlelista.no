@@ -54,6 +54,7 @@ export const CreateListForm = component$<CreateListProps>(({ list }) => {
             <button
                 class={title.value.length > 2 ? 'button-active' : ''}
                 disabled={title.value.length < 2}
+                aria-label="Submit new list"
             >
                 {isLoading.value ? (
                     <LuLoader2 class="icon spin" />

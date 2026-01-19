@@ -18,7 +18,7 @@ html {
     font-family:
         ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
         Roboto;
-    --homelink-color-darkscheme: #3498db;
+    --homelink-color-darkscheme: #1a5f8c;
     --homelink-color-lightscheme: #3498db;
     --list-item-color-lightscheme: #e0f2fe;
     --list-item-color-darkscheme: #2b4d63;
@@ -33,7 +33,7 @@ body {
     height: 100dvh;
     max-width: 1200px;
     margin: auto;
-    background-color: light-dark(white, rgb(30 41 59));
+    background-color: light-dark(white, rgb(20, 29, 44));
 }
 header {
     transition: all 0.3s ease;

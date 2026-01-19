@@ -1,7 +1,9 @@
 import {
+    $,
     Slot,
     component$,
     useContextProvider,
+    useOnDocument,
     useStore,
     useTask$,
 } from '@builder.io/qwik'
@@ -28,6 +30,15 @@ export const useServerTimeLoader = routeLoader$(() => {
 export default component$(() => {
     const lists = useStore({ lists: [] })
     useContextProvider(listsContext, lists)
+
+    useOnDocument(
+        'DOMContentLoaded',
+        $(() => {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/service-worker.js')
+            }
+        }),
+    )
 
     return (
         <>

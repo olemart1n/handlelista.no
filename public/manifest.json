@@ -1,9 +1,22 @@
 {
-  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
-  "name": "qwik-project-name",
-  "short_name": "Welcome to Qwik",
-  "start_url": ".",
-  "display": "standalone",
-  "background_color": "#fff",
-  "description": "A Qwik project app."
+    "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+    "name": "handleLista.no",
+    "short_name": "handleLista.no",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "rgb(20, 29, 44)",
+    "description": "En app med middagsforslag of handlelister",
+    "icons": [
+        {
+            "src": "/icons/handlelista-icon.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/icons/handlelista-icon.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
 }

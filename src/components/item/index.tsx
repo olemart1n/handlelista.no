@@ -31,6 +31,7 @@ export const Item = component$<ItemProps>(({ props }) => {
             <div class="item-content">
                 <button
                     class="delete-button"
+                    aria-label="delete item button"
                     onClick$={() => {
                         tursoDeleteItem(props.id).then((data) => {
                             data === 'Deleted' && divEl.value?.remove()

@@ -42,6 +42,7 @@ export const LinkToList = component$<List>(({ id, title }) => {
         <div ref={divEl} key={id} class="link-to-list">
             <button
                 class="trash-button"
+                aria-label="button that delete list"
                 onClick$={() =>
                     removeLink(id).then((ok) => ok && divEl.value?.remove())
                 }
@@ -58,6 +59,7 @@ export const LinkToList = component$<List>(({ id, title }) => {
                 ) : (
                     <button
                         class="share-button"
+                        aria-label="Share or copy link to list"
                         onClick$={async () => {
                             try {
                                 await navigator.share({
