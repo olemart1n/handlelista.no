@@ -78,7 +78,14 @@ export const DinnerSuggestion = component$(() => {
                 <Modal.Panel class="modal-panel">
                     <div class="header">
                         <Modal.Title>Middagsforslag</Modal.Title>
-                        <Modal.Close class="cancel" type="submit">
+                        <Modal.Close
+                            class="cancel"
+                            type="submit"
+                            onClick$={() => {
+                                store.name = ''
+                                store.ingredients_json = []
+                            }}
+                        >
                             <LuX />
                         </Modal.Close>
                     </div>
@@ -106,6 +113,8 @@ export const DinnerSuggestion = component$(() => {
                                     //         '/liste/' +
                                     //         message.list.id,
                                     // )
+                                    store.name = ''
+                                    store.ingredients_json = []
                                     context.lists.push({
                                         title: message.list.title,
                                         id: message.list.id,

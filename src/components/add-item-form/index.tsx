@@ -48,6 +48,7 @@ export const AddItemForm = component$<ListInputProps>(({ list }) => {
             ></button>
             <button
                 class={'button ' + (title.value.length > 2 && 'button-active')}
+                type="submit"
             >
                 {title.value.length > 2 ? (
                     <LuCheck
