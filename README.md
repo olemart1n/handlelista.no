@@ -52,7 +52,4 @@ CREATE TABLE dinner_suggestions (
 `npm run dev`
 
 Gjøremål
-1. Finn ut hvorfor noe av styling ikke virker å production.
-2. Lag en liste med middagsretter å lagre i databasen. Start med 20 forskelige retter.
-3. Integrer middagsforslag i nettsiden.
 4. Webworker

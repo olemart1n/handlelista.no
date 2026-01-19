@@ -31,10 +31,11 @@ export type ParsedDinnerSuggestion = Omit<
     DinnerSuggestion,
     'ingredients_json'
 > & {
-    ingredients_json: Ingredients[]
+    ingredients_json: Ingredient[]
 }
 
-export interface Ingredients {
+// THIS OBJECT WILL EVENTUALLY BECOME AN ITEM IN A LIST, BUT NEED ITS OWN TYPE BECAUSE OF HOW DINNERSUGGESTIONS IS STORED IN DB
+export interface Ingredient {
     name: string
     amount: number
     unit: string

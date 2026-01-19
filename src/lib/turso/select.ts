@@ -57,7 +57,6 @@ export const selectDinnerSuggestion = async (
         const res = await client.execute({
             sql: 'SELECT * FROM dinner_suggestions ORDER BY RANDOM() LIMIT 1;',
         })
-
         const row = res.rows[0] as unknown as DinnerSuggestion
         if (row) {
             const parsedRow: ParsedDinnerSuggestion = {

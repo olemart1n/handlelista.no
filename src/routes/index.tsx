@@ -1,8 +1,19 @@
-import { component$, useStore, useStylesScoped$ } from '@builder.io/qwik'
-import { routeLoader$, type DocumentHead } from '@builder.io/qwik-city'
+import {
+    $,
+    component$,
+    useContext,
+    useOnDocument,
+    useSignal,
+    useStore,
+    useStylesScoped$,
+    useTask$,
+    useVisibleTask$,
+} from '@builder.io/qwik'
+import { routeLoader$, server$, type DocumentHead } from '@builder.io/qwik-city'
 import { CreateListForm, LinkToList } from '~/components'
 import type { List } from '~/lib'
 import styles from './index.css?inline'
+import { listsContext } from '~/context'
 
 export const useStoredLists = routeLoader$((reqEv) => {
     const lists = reqEv.cookie.get('lists')
@@ -17,14 +28,19 @@ export const useStoredLists = routeLoader$((reqEv) => {
 export default component$(() => {
     useStylesScoped$(styles)
     const routeData = useStoredLists()
-    const lists = useStore(routeData.value)
+    const context = useContext(listsContext)
+
+    useTask$(() => {
+        context.lists = routeData.value
+    })
+    // const lists = useStore(routeData.value)
     return (
         <main>
             <div>
-                <CreateListForm list={lists} />
+                <CreateListForm list={context.lists} />
             </div>
             <div>
-                {lists.map((list: List) => (
+                {context.lists.map((list: List) => (
                     <LinkToList key={list.id} id={list.id} title={list.title} />
                 ))}
             </div>

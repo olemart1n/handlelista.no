@@ -1,8 +1,14 @@
-import { Slot, component$ } from '@builder.io/qwik'
+import {
+    Slot,
+    component$,
+    useContextProvider,
+    useStore,
+    useTask$,
+} from '@builder.io/qwik'
 import { routeLoader$ } from '@builder.io/qwik-city'
 import { type RequestHandler, Link } from '@builder.io/qwik-city'
 import { DinnerSuggestion } from '~/components'
-
+import { listsContext } from '~/context'
 export const onGet: RequestHandler = async ({ cacheControl }) => {
     // Control caching for this request for best performance and to reduce hosting costs:
     // https://qwik.builder.io/docs/caching/
@@ -20,6 +26,9 @@ export const useServerTimeLoader = routeLoader$(() => {
 })
 
 export default component$(() => {
+    const lists = useStore({ lists: [] })
+    useContextProvider(listsContext, lists)
+
     return (
         <>
             <header>

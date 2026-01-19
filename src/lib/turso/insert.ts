@@ -1,7 +1,7 @@
 import { type EnvGetter } from '@builder.io/qwik-city/middleware/request-handler'
 import { turso } from './turso-client'
 import type { List, ListItem } from '~/lib'
-import type { Ingredients } from '~/lib'
+import type { Ingredient } from '~/lib'
 export const insertNewList = async (
     env: EnvGetter,
     id: string,
@@ -43,7 +43,7 @@ export const insertNewItem = async (
 export const insertManyItems = async (
     env: EnvGetter,
     list_id: string,
-    items: Ingredients[],
+    items: Ingredient[],
 ): Promise<boolean> => {
     const client = turso(env)
     const t = await client.transaction()
@@ -62,4 +62,42 @@ export const insertManyItems = async (
         console.log(error)
         return false
     }
+}
+
+export const insertListAndIngredients = async (
+    env: EnvGetter,
+    listId: string,
+    title: string,
+    ingredients: Ingredient[],
+): Promise<List | undefined> => {
+    const client = turso(env)
+    const t = await client.transaction()
+    let list: List | undefined
+    try {
+        const newList = await client.execute({
+            sql: 'INSERT INTO lists (id,title) VALUES (?,?) RETURNING *',
+            args: [listId, title],
+        })
+
+        await Promise.all(
+            ingredients.map(async (ing) => {
+                await t.execute({
+                    sql: 'INSERT INTO items (name, list_id, extra_info) VALUES (?, ?, ?) RETURNING *',
+                    args: [ing.name, listId, ing.amount + ' ' + ing.unit],
+                })
+            }),
+        )
+
+        await t.commit()
+
+        if (newList.rows.length > 0) {
+            list = newList.rows[0] as unknown as List
+            // return newList.rows[0] as unknown as List
+        }
+    } catch (error) {
+        list = undefined
+        await t.rollback()
+        throw error
+    }
+    return list
 }

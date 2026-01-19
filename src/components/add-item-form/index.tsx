@@ -56,7 +56,11 @@ export const AddItemForm = component$<ListInputProps>(({ list }) => {
                         focusable="false"
                     />
                 ) : (
-                    <LuPlus class="icon" aria-hidden="true" focusable="false" />
+                    <LuCheck
+                        class="icon"
+                        aria-hidden="true"
+                        focusable="false"
+                    />
                 )}
             </button>
         </form>
